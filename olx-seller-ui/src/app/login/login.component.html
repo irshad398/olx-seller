@@ -1,0 +1,23 @@
+<div class="container" style="width:20%;margin-top: 10%">
+  <form  #loginForm="ngForm" (ngSubmit)="login()">
+    <div class="form-group ">
+      <label>Username or Email</label>
+      <input type="email" class="form-control" required [(ngModel)]="loginInfo.name" name="loginId">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" class="form-control" #password required
+             [(ngModel)]="loginInfo.password" name="password">
+    </div>
+    <div class="forgetmenot pull-left">
+      <label for="rememberme"><input name="rememberme" id="rememberme" value="forever" type="checkbox">Remember Me</label>
+    </div>
+    <div class="submit pull-right">
+      <button type="submit" class="btn btn-primary"
+              [disabled]="!loginForm.form.valid"
+              value="Login" name="loginButton">Login
+      </button>
+    </div>
+    <span class="clearfix"></span>
+  </form>
+</div>
