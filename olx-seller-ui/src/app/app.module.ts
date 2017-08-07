@@ -6,13 +6,14 @@ import {NavigationComponent} from "./navigation/navigation.component";
 import {LoginModule} from "./login/login.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {RegisterModule} from "./registration/register.module";
+import {HomeModule} from "./home/home.module";
 
 @NgModule({
   declarations: [
     AppComponent,NavigationComponent
   ],
   imports: [
-    BrowserModule,LoginModule,AppRoutingModule,RegisterModule
+    BrowserModule,LoginModule,AppRoutingModule,RegisterModule,HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
