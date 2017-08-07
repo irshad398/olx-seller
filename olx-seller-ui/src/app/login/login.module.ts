@@ -2,6 +2,7 @@ import {NgModule} from "@angular/core"
 import {LoginComponent} from "./login.component";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {LoginService} from "./login.service";
 @NgModule({
   declarations: [
     LoginComponent
@@ -12,6 +13,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [LoginService],
 })
 export class LoginModule { }
