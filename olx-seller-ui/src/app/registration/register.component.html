@@ -43,54 +43,66 @@
 
   <h2>Registration Form</h2>
 
-  <form #userform="ngForm"  novalidate>
+  <form #userform="ngForm" (ngSubmit)="register(userform.value)" novalidate>
 
     <div class="names">
       <label>Name</label>
-      <input type="text" #nameref="ngModel" minlength="3" maxlength="20" class="form-control" name="firstname" ngModel required #name ><br><br>
-      <div *ngIf="nameref.errors && (nameref.dirty || nameref.touched)" >
-        <div [hidden]="!nameref.errors.required ">
-          Please enter  name
+      <input type="text" [ngModel]="user.name" #nameRef="ngModel" minlength="3" maxlength="30" class="form-control"
+             name="name" ngModel
+             required #name><br><br>
+      <div *ngIf="nameRef.errors && (nameRef.dirty || nameRef.touched)">
+        <div [hidden]="!nameRef.errors.required" style="color: red;">
+          Please enter name
         </div>
-        <div [hidden]="!nameref.errors.minlength">
-          please enter atleast 3 characters
+        <div [hidden]="!nameRef.errors.minlength">
+          Name should be at least of length 3
         </div>
-        <div [hidden]="nameref.errors.maxlength">
-          please enter only 10 characters
+        <div [hidden]="nameRef.errors.maxlength">
+          Name must be of length 30 characters
         </div>
       </div>
     </div>
-    <div >
-      <label>Email</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="text" class="form-control" name="email" ngModel required #email><br><br>
+    <div>
+      <label>Email</label>
+      <input type="text" class="form-control" name="email" ngModel
+             required #emailRef [ngModel]="user.email"
+             pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"><br><br>
+
+      <small [hidden]="emailRef.errors || (emailRef.pristine && !userform.submitted)" class="text-danger">
+        Email is required and format should be <i>kmi@mail.com</i>.
+      </small>
+
     </div>
     <div class="names">
-      <label>Password  </label>&nbsp;
-      <input type="password" class="form-control" name="password" ngModel required #password><br><br>
+      <label>Password </label>&nbsp;
+      <input type="password" class="form-control" name="password" [ngModel]="user.password" ngModel required
+             #passRef><br><br>
     </div>
     <div class="names">
-      <label>Confirm password  </label>&nbsp;
-      <input type="password" class="form-control" name="confirmPassword" ngModel required #confirmPassword><br><br>
+      <label>Confirm password </label>
+      <input type="password" class="form-control" name="confirmPassword" ngModel required #confirmPassRef><br><br>
+
+      <span [hidden]="passRef.value==confirmPassRef.value" style="color: red;">
+        Password doesn't match!
+      </span>
     </div>
-    <div >
+    <div>
       <label>Phone No</label>&nbsp;
-      <input type="text" class="form-control" name="phoneno" ngModel required #phoneno><br><br>
+      <input type="text" class="form-control" name="phoneNumber" ngModel [ngModel]="user.phoneNumber" required #phoneno><br><br>
     </div>
-    <div >
+    <div>
       <label>Security Question</label>
-      <select class="form-control" name="question" ngModel required #question>
-        <option value="USD">&#36;</option>
-        <option value="Rs">&#8364;</option>
-        <option value="EUR">&#8377;</option>
+      <select class="form-control" name="question" ngModel required #question [ngModel]="user.securityQuestion">
+        <option value="What is your pincode?">What is your pincode?</option>
+        <option value="What is your mother's maiden name?">What is your mothers maiden name?</option>
+        <option value="What is best friend's name?">What is best friend's name?</option>
       </select><br><br><br>
 
     </div>
     <label>Answer</label>&nbsp;
-    <input type="text" class="form-control" name="answer" ngModel required #answer><br><br>
+    <input type="text" class="form-control" name="answer" ngModel required #answer [ngModel]="user.answer"><br><br>
 
-    <button [disabled]="!userform.form.valid" type="submit" class="btn"
-            (click)="onRegister(userform)"
-    >submit</button>
+    <button [disabled]="!userform.form.valid" type="submit" class="btn">Submit</button>
   </form>
 
 </div>

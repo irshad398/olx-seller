@@ -4,6 +4,7 @@ import {HttpModule} from "@angular/http";
 import {NgModule} from "@angular/core";
 
 import {RegisterComponent} from "./register.component";
+import {RegisterService} from "./register.service";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import {RegisterComponent} from "./register.component";
     HttpModule,
     FormsModule
   ],
-  providers: [],
+  providers: [RegisterService],
 
 })
 export class RegisterModule{}

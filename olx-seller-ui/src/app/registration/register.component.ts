@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {Http,Response} from "@angular/http";
 import {ActivatedRoute, Params, Router} from "@angular/router"
 import 'rxjs/add/operator/map';
+import {RegisterService} from "./register.service";
 
 @Component({
   selector:'app-register',
@@ -10,11 +11,33 @@ import 'rxjs/add/operator/map';
 })
 export class RegisterComponent{
   title="registration";
-  user;
+  user={
+    name:'',
+    password:'',
+    phoneNumber:'',
+    email:'',
+    question:'',
+    answer:'',
+  };
+  constructor(private _registerService :RegisterService, private router : Router){}
 
-  // constructor(private _user :RegisterService,private router : Router){}
-
-  onRegister(user){
-    console.log(user);
+  public register(userData){
+    console.log(userData);
+    this.user.name=userData.name;
+    this.user.password=userData.password;
+    this.user.phoneNumber=userData.phoneNumber;
+    this.user.email=userData.email;
+    this.user.question=userData.question;
+    this.user.answer=userData.answer;
+    userData=this.user;
+    console.log(userData);
+    this._registerService.submitUserData(userData)
+      .subscribe(data=>{
+          alert("Registration Success!'");
+          this.router.navigate(['/login']);
+        },
+          error=>{console.log("Registration failed")}
+      );
   }
+
 }
