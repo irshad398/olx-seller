@@ -14,10 +14,16 @@ public class BaseException extends Exception {
 */
 	// TODO: USAGE: To Override in the child exceptions
 
-/*	protected BaseException() {
+	protected BaseException() {
+	}
+	public BaseException(String msg, Throwable th) {
+//		super(StringUtil.noNullTrim(msg), th);
+//		setErrorCode(errorCode);
+		System.out.println("msg: "+th);
 	}
 
-	public BaseException(String msg, Throwable th, String errorCode) {
+	
+	/*public BaseException(String msg, Throwable th, String errorCode) {
 		super(StringUtil.noNullTrim(msg), th);
 		setErrorCode(errorCode);
 	}

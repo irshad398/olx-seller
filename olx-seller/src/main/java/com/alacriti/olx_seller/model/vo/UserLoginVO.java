@@ -1,25 +1,25 @@
 package com.alacriti.olx_seller.model.vo;
 
 public class UserLoginVO {
-	private String username;
+	private String email;
 	private String password;
 
 	public UserLoginVO() {
 
 	}
 
-	public UserLoginVO(String username, String password) {
+	public UserLoginVO(String email, String password) {
 
-		this.username = username;
+		this.email = email;
 		this.password = password;
 	}
 
 	public String getUserName() {
-		return username;
+		return email;
 	}
 
-	public void setName(String username) {
-		this.username = username;
+	public void setName(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

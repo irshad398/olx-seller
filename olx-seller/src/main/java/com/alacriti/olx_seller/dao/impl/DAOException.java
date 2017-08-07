@@ -6,20 +6,20 @@ import com.alacriti.olx_seller.exception.BaseException;
 
 public class DAOException extends BaseException {
 
-	/*public DAOException() {
+	public DAOException() {
 	}
 
-	public DAOException(String msg, Throwable th, String errorCode) {
-		super(msg, th, errorCode);
+	public DAOException(String msg, Throwable th) {
+		super(msg, th);
 	}
-
+	/*
 	public DAOException(Throwable th, String errorCode) {
 		this(null, th, errorCode);
 	}
 
 	public DAOException(String msg, Throwable th) {
-
-		this(msg, th, ErrorConstants.ERR_GENERIC_DAO);
+		
+		this(msg, th);
 	}
 
 	public DAOException(Throwable th) {

@@ -85,9 +85,8 @@ public class UserDAO extends BaseDAO{
 				System.out.println("User inserted!");
 			}
 		} catch (SQLException e) {
-			System.out.println(
-					"SQLException in registerUser " + e.getMessage());
-			//throw new DAOException("SQLException in createUserRole():", e);
+//			System.out.println("SQLException in registerUser " + e.getMessage());
+			throw new DAOException("SQLException in createUserRole():", e);
 		} finally {
 			close(stmt, rs);
 		}

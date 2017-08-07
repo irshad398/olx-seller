@@ -1,5 +1,6 @@
 package com.alacriti.olx_seller.resources;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,9 +19,6 @@ public class UserResource {
 	@Produces("application/json")
 	
 	public Response checkUser(UserLoginVO userLoginVo){
-		
-				//String userName=user.getUserName();
-				//System.out.println(user.getUserName()+","+user.getPassword());
 		UserDelegate userDelegate= new UserDelegate();
 		userDelegate.checkUserLogin(userLoginVo);
 		if(validUser)
@@ -32,6 +30,7 @@ public class UserResource {
 	@POST
 	@Path("/register")
 	@Produces("application/json")
+	@Consumes("application/json")
 	public Response registerUser(UserRegisterVO userRegisterVO){
 		UserDelegate userDelegate= new UserDelegate();
 		userDelegate.registerUser(userRegisterVO);
