@@ -30,4 +30,19 @@ public class ProductDelegate extends BaseDelegate {
 		return products;
 		
 	}
+
+	public void getProductById(ProductVO productVO) {
+		boolean rollBack=false;
+		Connection connection = null;
+		try{
+			connection = startDBTransaction();
+			setConnection(connection);
+			ProductBO productBO = new ProductBO(getConnection());
+			productBO.getProductById(productVO);
+		}
+		catch(Exception e){
+			System.out.println("Exception in getProductById " + e.getMessage());
+			rollBack = true;
+		}
+	}
 }
