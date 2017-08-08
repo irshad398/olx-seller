@@ -26,4 +26,15 @@ public class ProductBO extends BaseBO{
 		}
 		return products;
 	}
+
+	public void getProductById(ProductVO productVO) throws DAOException,BOException {
+		try{
+			ProductDAO productDAO = new ProductDAO(getConnection());
+			productDAO.getProductById(productVO);
+		}
+		catch(Exception e){
+			System.out.println("Exception in retrieveProductById " + e.getMessage());
+			throw new BOException();
+		}
+	}
 }
