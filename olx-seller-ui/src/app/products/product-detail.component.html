@@ -1,0 +1,52 @@
+<!--
+<hr>
+<h4>{{product.title}} Detail</h4>
+<div>Id: {{product.id}}</div>
+<div>Name:
+  <input [(ngModel)]="product.price">
+</div>
+<div>Category<input [(ngModel)]="product.category_name></div>
+
+-->
+<div *ngIf="product" class="container-fluid" style="width:50%;margin-top: 30px">
+
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>{{product.title}}</th>
+    </tr>
+    <tr>
+      <td>Category</td>
+      <td>{{product.category_name}}</td>
+    </tr>
+    <tr>
+      <td>Price</td>
+      <td>&#8377; {{product.price}}</td>
+    </tr>
+    <tr>
+      <td>Model</td>
+      <td>{{product.model}}</td>
+    </tr>
+    <tr>
+      <td>Old/New</td>
+      <td>{{product.old_or_new}}</td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td>{{product.description}}</td>
+    </tr>
+    <tr>
+      <td>Last updated on</td>
+      <td>{{product.postedOn}}</td>
+    </tr>
+    <tr>
+      <td>Seller details</td>
+      <td>Name: {{product.seller_name}}<br/>
+          Contact: {{product.phone_no}}<br/>
+          Email: {{product.email}}</td>
+    </tr>
+
+  </table>
+  <br/>
+  <button class="btn pull-right" (click)="goBack()">Go Back</button>
+</div>

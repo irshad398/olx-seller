@@ -1,0 +1,62 @@
+<!--
+
+<div id="search-component">
+  <h4>Product Search</h4>
+  <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+  <div>
+    <div *ngFor="let product of products | async"
+         (click)="gotoDetail(product)" class="search-result" >
+      {{product.title}}
+    </div>
+  </div>
+</div>
+-->
+<!--<form class="navbar-form navbar" role="search">-->
+  <!--<div class="form-group">-->
+    <!--<input type="text" class="form-control" placeholder="Search Products">-->
+  <!--</div>-->
+  <!--<button type="submit" class="btn btn-default">-->
+    <!--<span class="glyphicon glyphicon-search"></span>-->
+  <!--</button>-->
+<!--</form>-->
+
+<!--
+<div class="col-sm-6 col-md-6">
+  <form class="navbar-form" role="search" method="get" id="search-form" name="search-form">
+    <div class="btn-group " style="margin-right:10px;">
+      &lt;!&ndash;<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" >Mumbai <span class="caret"></span></a>&ndash;&gt;
+      <div class="dropdown-menu multi">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4">
+              <ul class="dropdown-menu">
+                <li>Mumbai</li>
+              <li><strong>Mumbai</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="2 BHK Flat, Pune Real Estate, Pest Control..." id="query" name="query" value="">
+      <div class="input-group-btn">
+        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
+      </div>
+    </div>
+  </form>
+</div>-->
+
+
+
+<form>
+  <input type="text" name="title" placeholder="Search Products...">
+  <select id="soflow" name="catId" >
+    <option >All</option>
+    <option value="1">Cars</option>
+    <option value="2">Mobiles</option>
+    <option value="3">Bikes</option>
+    <option value="4">Books</option>
+  </select>
+  <button type="submit">Search</button>
+</form>

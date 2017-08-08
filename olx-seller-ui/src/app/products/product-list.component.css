@@ -1,0 +1,17 @@
+#products{
+  text-align:center;
+  width:50%;
+  margin-left: 15%;
+
+}
+#products #items:hover{
+  cursor:pointer;
+  background-color: #d5daff;
+}
+.selectedProduct
+{
+  width:30%;
+  text-align: left;
+  margin-left: 25%;
+  padding: 5px;
+}

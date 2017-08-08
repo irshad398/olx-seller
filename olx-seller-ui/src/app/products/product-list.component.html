@@ -1,0 +1,17 @@
+<ul class="list-group" id="products">
+  <li class="list-group-item" id="items" *ngFor="let product of products" (click)="selectProduct(product)">
+    {{product.title}}
+  </li>
+</ul>
+
+<div *ngIf="selectedProduct" class="selectedProduct">
+  <h2>
+    {{selectedProduct.title}}
+  </h2>
+  <h3>
+    Price: &#8377; {{selectedProduct.price}}
+  </h3>
+  <button class="btn" (click)="gotoDetail(selectedProduct.product_id)">
+    View Details
+  </button>
+</div>
