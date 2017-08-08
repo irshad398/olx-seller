@@ -13,7 +13,6 @@ public class ProductVO {
 	private long phone_no;
 	private String email;
 	
-	
 	public ProductVO() {
 		super();
 	}
