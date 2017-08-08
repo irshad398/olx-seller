@@ -3,6 +3,7 @@ import {LoginComponent} from "./login/login.component";
 import {NgModule} from "@angular/core";
 import {RegisterComponent} from "./registration/register.component";
 import {HomeComponent} from "./home/home.component";
+import {ProductDetailComponent} from "./products/product-detail.component";
 const appRoutes: Routes = [
   {
     path: 'login',
@@ -14,6 +15,10 @@ const appRoutes: Routes = [
   {
     path:'home',
     component:HomeComponent
+  },
+  {
+    path:'products/detail/:id',
+    component:ProductDetailComponent
   }/*,
   {
     path: 'admin',
