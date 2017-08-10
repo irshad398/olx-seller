@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.alacriti.olx_seller.bo.impl.ProductBO;
 import com.alacriti.olx_seller.model.vo.ProductVO;
+import com.alacriti.olx_seller.model.vo.SearchProdutVO;
 
 public class ProductDelegate extends BaseDelegate {
 	public ProductDelegate(){
@@ -15,7 +16,7 @@ public class ProductDelegate extends BaseDelegate {
 		
 		boolean rollBack = false;
 		Connection connection = null;
-		ArrayList<ProductVO> products=new ArrayList<ProductVO>();
+		ArrayList<ProductVO> products=null;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
@@ -44,5 +45,24 @@ public class ProductDelegate extends BaseDelegate {
 			System.out.println("Exception in getProductById " + e.getMessage());
 			rollBack = true;
 		}
+	}
+
+
+	public ArrayList<ProductVO> getProducts(SearchProdutVO searchProdutVO) {
+		boolean rollBack = false;
+		Connection connection = null;
+		ArrayList<ProductVO> products=null;
+		try {
+			connection = startDBTransaction();
+			setConnection(connection);
+			ProductBO productBO = new ProductBO(getConnection());
+			products=productBO.getProducts(searchProdutVO);
+		} catch (Exception e) {
+			System.out.println("Exception in getProducts " + e.getMessage());
+			rollBack = true;
+		} finally {
+			endDBTransaction(connection, rollBack);
+		}
+		return products;
 	}
 }
