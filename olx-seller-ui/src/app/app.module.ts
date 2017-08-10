@@ -7,6 +7,7 @@ import {LoginModule} from "./login/login.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {RegisterModule} from "./registration/register.module";
 import {HomeModule} from "./home/home.module";
+import {AuthGuard} from "./authguard";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import {HomeModule} from "./home/home.module";
   imports: [
     BrowserModule,LoginModule,AppRoutingModule,RegisterModule,HomeModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,13 +4,17 @@ import {NgModule} from "@angular/core";
 import {RegisterComponent} from "./registration/register.component";
 import {HomeComponent} from "./home/home.component";
 import {ProductDetailComponent} from "./products/product-detail.component";
+import {AuthGuard} from "./authguard";
+import {ProductListComponent} from "./products/product-list.component";
+import {ProductSearchComponent} from "./products/product-search.component";
 const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
   },{
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,canActivate: [AuthGuard]
+
   },
   {
     path:'home',
@@ -19,6 +23,14 @@ const appRoutes: Routes = [
   {
     path:'products/detail/:id',
     component:ProductDetailComponent
+  },
+  {
+    path:'home/products',
+    component:ProductListComponent
+  },
+  {
+    path:'home/search',
+    component:ProductSearchComponent
   }/*,
   {
     path: 'admin',
