@@ -17,33 +17,36 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./product-search.component.css'],
 })
 export class ProductSearchComponent implements OnInit {
-
-  products: Observable<Product[]>;
-  private searchTerms = new Subject<string>();
-
+  searchInput={
+    title:'',
+    catId:''
+  };
+  returnedProducts:Product[];
+  selectedProduct:Product;
   constructor(private _productSearchService: ProductSearchService,
               private router: Router) {
   }
 
-  // Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
+  searchProduct(searchData){
+    console.log(searchData)
+    this._productSearchService.searchProduct(searchData)
+      .subscribe(data=>{
+        this.returnedProducts=data;
+      },()=>{ console.log("error in searching data")
+      });
+
+  }
+  selectProduct(product:Product){
+    this.selectedProduct=product;
+  }
+  gotoDetail(selectedProductId) {
+
+    console.log(selectedProductId);
+    this.router.navigate(['products/detail/'+ selectedProductId,{id:selectedProductId}]);
   }
 
   ngOnInit(): void {
-    this.products = this.searchTerms
-      .debounceTime(300)        // wait 300ms after each keystroke before considering the term
-      .distinctUntilChanged()   // ignore if next search term is same as previous
-      .switchMap(term => term   // switch to new observable each time the term changes
-        // return the http search observable
-        ? this._productSearchService.search(term)
-        // or the observable of empty heroes if there was no search term
-        : Observable.of<Product[]>([]))
-      .catch(error => {
-        // TODO: add real error handling
-        console.log(error);
-        return Observable.of<Product[]>([]);
-      });
+
   }
 
 }

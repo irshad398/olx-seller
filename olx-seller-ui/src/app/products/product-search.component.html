@@ -1,62 +1,52 @@
-<!--
 
-<div id="search-component">
-  <h4>Product Search</h4>
-  <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li><a  routerLink="/home/products" routerLinkActive="active" data-toggle="tab">
+      All Products
+    </a>
+    </li>
+    <li class="active"><a  routerLink="/home/search" routerLinkActive="active" data-toggle="tab">
+      Search Products
+    </a>
+    </li>
+  </ul>
+</div>
+<div class="container" style="margin-left: 25%;margin-top: 2%">
+<form class="navbar-form" #searchForm="ngForm" (ngSubmit)="searchProduct(searchForm.value)"  novalidate>
   <div>
-    <div *ngFor="let product of products | async"
-         (click)="gotoDetail(product)" class="search-result" >
+    <input class="form-control input-lg" type="text" name="title" [ngModel]="searchInput.title" ngModel required placeholder="Search Products...">
+
+        <select class=" input-lg" id="soflow" name="catId" [ngModel]="searchInput.catId" ngModel required>
+          <option value="1">Cars</option>
+          <option value="2">Mobiles</option>
+          <option value="3">Bikes</option>
+          <option value="4">Books</option>
+        </select>
+
+    <button class="btn btn-default btn-lg" type="submit" [disabled]="!searchForm.form.valid"><i class="glyphicon glyphicon-search"></i>Search</button>
+  </div>
+</form>
+</div>
+<br/>
+
+
+<div class="container" style="margin-top: 2%">
+  <ul class="list-group" id="products">
+    <li class="list-group-item" id="items" *ngFor="let product of returnedProducts" (click)="selectProduct(product)">
       {{product.title}}
-    </div>
+    </li>
+  </ul>
+
+  <div *ngIf="selectedProduct" class="selectedProduct">
+    <h2>
+      {{selectedProduct.title}}
+    </h2>
+    <h3>
+      Price: &#8377; {{selectedProduct.price}}
+    </h3>
+    <button class="btn" (click)="gotoDetail(selectedProduct.product_id)">
+      View Details
+    </button>
   </div>
 </div>
--->
-<!--<form class="navbar-form navbar" role="search">-->
-  <!--<div class="form-group">-->
-    <!--<input type="text" class="form-control" placeholder="Search Products">-->
-  <!--</div>-->
-  <!--<button type="submit" class="btn btn-default">-->
-    <!--<span class="glyphicon glyphicon-search"></span>-->
-  <!--</button>-->
-<!--</form>-->
-
-<!--
-<div class="col-sm-6 col-md-6">
-  <form class="navbar-form" role="search" method="get" id="search-form" name="search-form">
-    <div class="btn-group " style="margin-right:10px;">
-      &lt;!&ndash;<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" >Mumbai <span class="caret"></span></a>&ndash;&gt;
-      <div class="dropdown-menu multi">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4">
-              <ul class="dropdown-menu">
-                <li>Mumbai</li>
-              <li><strong>Mumbai</strong></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="2 BHK Flat, Pune Real Estate, Pest Control..." id="query" name="query" value="">
-      <div class="input-group-btn">
-        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
-      </div>
-    </div>
-  </form>
-</div>-->
-
-
-
-<form>
-  <input type="text" name="title" placeholder="Search Products...">
-  <select id="soflow" name="catId" >
-    <option >All</option>
-    <option value="1">Cars</option>
-    <option value="2">Mobiles</option>
-    <option value="3">Bikes</option>
-    <option value="4">Books</option>
-  </select>
-  <button type="submit">Search</button>
-</form>
