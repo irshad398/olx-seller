@@ -55,4 +55,31 @@ public class ProductBO extends BaseBO {
 		}
 		return products;
 	}
+
+	public ArrayList<ProductVO> getSellerProducts(int seller_id)
+			throws DAOException, BOException {
+		ArrayList<ProductVO> products = null;
+		try {
+			ProductDAO productDAO = new ProductDAO(getConnection());
+			products = productDAO.getSellerProducts(seller_id);
+
+		} catch (Exception e) {
+			System.out.println("Exception in retrieveProducts "
+					+ e.getMessage());
+			throw new BOException();
+		}
+		return products;
+	}
+
+	public void addProduct(ProductVO productVO) throws DAOException,
+			BOException {
+		try {
+			ProductDAO productDAO = new ProductDAO(getConnection());
+			productDAO.addProduct(productVO);
+		} catch (Exception e) {
+			System.out.println("Exception in retrieveAddProduct "
+					+ e.getMessage());
+			throw new BOException();
+		}
+	}
 }
