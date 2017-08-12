@@ -5,15 +5,14 @@ import {ProductService} from "./product.service";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Location} from '@angular/common';
 
-
 @Component({
-  selector: 'product-detail',
-  templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.css']
+  selector: 'myproduct-detail',
+  templateUrl: './myproduct-detail.component.html',
+  styleUrls: ['./myproduct-detail.component.css']
 })
-export class ProductDetailComponent {
-  product: Product;
-  product_id: number;
+export class MyProductDetailComponent {
+  myProduct: Product;
+  myProduct_id: number;
 
   constructor(private _productService: ProductService,
               private route: ActivatedRoute,
@@ -21,16 +20,21 @@ export class ProductDetailComponent {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: ParamMap) => {
-      this.product_id = params['id']
+      this.myProduct_id = params['id']
     });
 
-    this._productService.getProduct(this.product_id)
+    this._productService.getProduct(this.myProduct_id)
       .subscribe(data => {
         console.log(data);
-        this.product = data;
+        this.myProduct = data;
       });
   }
-
+  updateProduct(myProduct) {
+    this._productService.updateProduct(myProduct)
+      .subscribe(data=>{
+        alert("updated! ");
+      });
+  }
   goBack(): void {
     this.location.back();
   }

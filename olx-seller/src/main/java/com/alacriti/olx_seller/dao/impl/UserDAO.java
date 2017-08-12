@@ -6,6 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Context;
+
 import com.alacriti.olx_seller.model.vo.UserLoginVO;
 import com.alacriti.olx_seller.model.vo.UserRegisterVO;
 import com.alacriti.olx_seller.resources.UserResource;
@@ -18,27 +23,31 @@ public class UserDAO extends BaseDAO{
 	public UserDAO(){
 		
 	}
-	public void checkUserLogin(UserLoginVO userLoginVO) throws DAOException {
+	public boolean checkUserLogin(UserLoginVO userLoginVO) throws DAOException {
 //		log.debugPrintCurrentMethodName();
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
+		boolean isValidUser=false;
 		
 		try {
-			String userName=userLoginVO.getUserName();
-			String password=userLoginVO.getPassword();
-			String sqlCmd = "select password from irshadk_olx_seller_details where email='"+userName+"'";
-			stmt =getStatementCheckUserLogin(getConnection(), sqlCmd);
-			//System.out.println("reached here********");
-			rs= stmt.executeQuery(sqlCmd);
+			
+			String sqlCmd = "sqlCmd";
+			stmt =getPreparedStatementCheckUserLogin(getConnection(), sqlCmd);
+			System.out.println("reached here********");
+			stmt.setString(1,userLoginVO.getEmail());
+			rs= stmt.executeQuery();
 			if(rs.next()){
-				if(password.equals(rs.getString("password"))){
-					System.out.println("Successfully Logged in***"+userName);
-					UserResource.validUser=true;
+				if(userLoginVO.getPassword().equals(rs.getString("password"))){
+					System.out.println("Successfully Logged in***");
+					userLoginVO.setSeller_id(rs.getInt("seller_id"));
+					userLoginVO.setSeller_name(rs.getString("seller_name"));
+					System.out.println(userLoginVO.getSeller_name());
+					//UserResource.validUser=true;
+					isValidUser = true;
 				}
 				else
 				{
-					System.out.println("Invalid Password");
+					isValidUser = false;
 				}
 				
 			}
@@ -50,15 +59,16 @@ public class UserDAO extends BaseDAO{
 		} finally {
 			close(stmt);
 		}
+		return isValidUser;
 	}
 	
-	public Statement getStatementCheckUserLogin(Connection connection, String sqlCmd) throws SQLException{
+	public PreparedStatement getPreparedStatementCheckUserLogin(Connection connection, String sqlCmd) throws SQLException{
 //		log.debugPrintCurrentMethodName();
 
 		System.out.println("getStatement: " + sqlCmd);
 		try {
-
-			return connection.createStatement();
+			
+			return connection.prepareStatement("select seller_id, seller_name, email, password from irshadk_olx_seller_details where email = ? ");
 		} catch (SQLException e) {
 			System.out.println("Exception in getStatementCheckUser " + e.getMessage());
 			throw e;

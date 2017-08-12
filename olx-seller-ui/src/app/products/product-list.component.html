@@ -1,15 +1,33 @@
-<div class="tabbable" >
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Olx-Seller</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a >Services</a></li>
+      <li><a >About us</a></li>
+      <li *ngIf="user"><a >Welcome {{user.seller_name}}</a></li>
+      <li *ngIf="user"><a (click)="logout()">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="tabbable">
   <ul class="nav nav-tabs">
-    <li class="active"><a  routerLink="/products" routerLinkActive="active" data-toggle="tab">
+    <li class="active"><a  routerLink="/home/products" routerLinkActive="active" data-toggle="tab">
       All Products
     </a>
     </li>
     <li><a routerLink="/home/search" routerLinkActive="active" data-toggle="tab">
       Search Products
     </a>
+    <li><a routerLink="/home/my-produts" routerLinkActive="active" data-toggle="tab">
+      My Products
+    </a>
     </li>
   </ul>
 </div>
+
 <div class="container" style="margin-top: 2%">
 <ul class="list-group" id="products">
   <li class="list-group-item" id="items" *ngFor="let product of products" (click)="selectProduct(product)">
@@ -29,3 +47,4 @@
   </button>
 </div>
 </div>
+

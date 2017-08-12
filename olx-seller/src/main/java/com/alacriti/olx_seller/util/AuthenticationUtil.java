@@ -14,19 +14,17 @@ public class AuthenticationUtil {
 		try{
 			HttpSession session = request.getSession(true);
 			session.setAttribute("email", userLoginVo.getEmail());
-			System.out.println(session.getAttribute("email"));
+			session.setAttribute("seller_id", userLoginVo.getSeller_id());
+			session.setAttribute("seller_name", userLoginVo.getSeller_name());
+			System.out.println("seller_id: "+session.getAttribute("seller_id"));
 			System.out.println("JSession ID: "+session.getId());
 		}catch(Exception e){
 			System.out.println("Exception in creating session: "+e);
 		}
 	}
-	public boolean checkSession( @Context HttpServletRequest request){
+	public HttpSession getSession( @Context HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		if(session!=null){
-			System.out.println("Session: "+session.getId());
-			return true;
-		}
-		return false;
+		return session;
 	}
 	public void destroySession(HttpServletRequest request) {
 		HttpSession existingSession = request.getSession(false);

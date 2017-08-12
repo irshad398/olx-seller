@@ -7,16 +7,24 @@ import {ProductListComponent} from "./product-list.component";
 import {ProductDetailComponent} from "./product-detail.component";
 import {FormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
+import {HomeModule} from "../home/home.module";
+import {MyProductsComponent} from "./my-products.component";
+import {MyProductDetailComponent} from "./myproduct-detail.component";
 
 @NgModule({
-  declarations: [ProductSearchComponent,ProductListComponent,ProductDetailComponent
+  declarations: [
+    ProductSearchComponent,
+    ProductListComponent,
+    ProductDetailComponent,
+    MyProductsComponent,MyProductDetailComponent
   ],
   imports: [
-    BrowserModule,FormsModule,RouterModule
+    BrowserModule, FormsModule, RouterModule
 
   ],
-  providers: [ProductService,ProductSearchService],
-  exports:[ProductSearchComponent,ProductListComponent]
+  providers: [ProductService, ProductSearchService],
+  exports: [ProductSearchComponent, ProductListComponent]
 
 })
-export class ProductsModule{}
+export class ProductsModule {
+}

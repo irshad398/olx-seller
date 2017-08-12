@@ -82,4 +82,28 @@ public class ProductBO extends BaseBO {
 			throw new BOException();
 		}
 	}
+
+	public boolean deleteProduct(int seller_id, int product_id)
+			throws DAOException, BOException {
+		try {
+			ProductDAO productDAO = new ProductDAO(getConnection());
+			return productDAO.deleteProduct(seller_id, product_id);
+		} catch (Exception e) {
+			System.out.println("Exception in retrieveDeleteProduct "
+					+ e.getMessage());
+			throw new BOException();
+		}
+	}
+
+	public boolean updateProduct(ProductVO productVO, int seller_id,
+			int product_id) throws DAOException, BOException {
+		try {
+			ProductDAO productDAO = new ProductDAO(getConnection());
+			return productDAO.updateProduct(productVO,seller_id, product_id);
+		} catch (Exception e) {
+			System.out.println("Exception in retrieveDeleteProduct "
+					+ e.getMessage());
+			throw new BOException();
+		}
+	}
 }

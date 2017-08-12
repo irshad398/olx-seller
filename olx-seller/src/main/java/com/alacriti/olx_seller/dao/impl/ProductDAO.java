@@ -284,4 +284,103 @@ public class ProductDAO extends BaseDAO {
 
 	}
 
+	public boolean deleteProduct(int seller_id, int product_id)
+			throws DAOException {
+		PreparedStatement stmt = null;
+		String sqlCmd = "sql cmd";
+		int count;
+		try {
+			stmt = getPreparedStatementDeleteProduct(getConnection(), sqlCmd);
+			System.out.println("reached here********");
+			stmt.setInt(1, product_id);
+			stmt.setInt(2, seller_id);
+			count = stmt.executeUpdate();
+			if (count > 0) {
+				System.out.println("Product Deleted successfully");
+				return true;
+			} else {
+				System.out.println("Unable to delete the product");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException("SQLException in deleteProduct():", e);
+		} finally {
+			close(stmt);
+		}
+	}
+
+	private PreparedStatement getPreparedStatementDeleteProduct(
+			Connection connection, String sqlCmd) throws SQLException {
+
+		System.out.println("getPreparedStatementDeleteProduct: " + sqlCmd);
+		try {
+
+			return connection
+					.prepareStatement("DELETE FROM irshadk_olx_product_details"
+							+ " WHERE product_id = ? AND seller_id = ?");
+
+		} catch (SQLException e) {
+			System.out
+					.println("Exception in getPreparedStatementDeleteProduct "
+							+ e.getMessage());
+			throw e;
+		}
+
+	}
+
+	public boolean updateProduct(ProductVO productVO, int seller_id,
+			int product_id) throws DAOException {
+		PreparedStatement stmt = null;
+		String sqlCmd = "sql cmd";
+		int count;
+		try {
+			stmt = getPreparedStatementUpdateProduct(getConnection(), sqlCmd);
+			System.out.println("reached here********");
+			stmt.setString(1, productVO.getTitle());
+			// stmt.setInt(2,seller_id); SET title = ?,category_id = ?, description = ? , model = ?, price = ?"
+//			+ " where product_id = ? AND seller_id = ?");
+			stmt.setString(2, productVO.getDescription());
+			stmt.setString(3, productVO.getModel());
+			stmt.setFloat(4, productVO.getPrice());
+			stmt.setString(5, productVO.getOld_or_new());
+			stmt.setInt(6, product_id);
+			stmt.setInt(7, seller_id);
+			count = stmt.executeUpdate();
+			if (count > 0) {
+				System.out.println("Product updated successfully");
+				return true;
+			} else {
+				System.out.println("Unable to update the product");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException("SQLException in updateProduct():", e);
+		} finally {
+			close(stmt);
+		}
+	}
+
+	private PreparedStatement getPreparedStatementUpdateProduct(
+			Connection connection, String sqlCmd) throws SQLException{
+
+
+		System.out.println("getPreparedStatementUpdateProduct: " + sqlCmd);
+		try {
+
+			return connection
+					.prepareStatement("UPDATE irshadk_olx_product_details"
+							+ " SET title = ?, description = ? , model = ?, price = ?, old_or_new = ?"
+							+ " where product_id = ? AND seller_id = ?");
+
+		} catch (SQLException e) {
+			System.out.println("Exception in getPreparedStatementDeleteProduct "
+					+ e.getMessage());
+			throw e;
+		}
+
+	
+	}
+
 }

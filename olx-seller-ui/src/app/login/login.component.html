@@ -2,7 +2,7 @@
   <form  #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
     <div class="form-group ">
       <label>Email</label>
-      <input type="email" class="form-control" required [(ngModel)]="userLogin.name" name="loginId">
+      <input type="email" class="form-control" required [(ngModel)]="userLogin.email" name="loginId">
     </div>
     <div class="form-group">
       <label for="password">Password</label>

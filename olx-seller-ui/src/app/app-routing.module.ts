@@ -7,31 +7,50 @@ import {ProductDetailComponent} from "./products/product-detail.component";
 import {AuthGuard} from "./authguard";
 import {ProductListComponent} from "./products/product-list.component";
 import {ProductSearchComponent} from "./products/product-search.component";
+import {MyProductsComponent} from "./products/my-products.component";
+import {MyProductDetailComponent} from "./products/myproduct-detail.component";
+
 const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
   },{
     path: 'register',
-    component: RegisterComponent,canActivate: [AuthGuard]
+    component: RegisterComponent
 
   },
   {
     path:'home',
-    component:HomeComponent
+    component:HomeComponent,canActivate: [AuthGuard]
+    /*,canActivate: [AuthGuard]*/
   },
   {
     path:'products/detail/:id',
-    component:ProductDetailComponent
+    component:ProductDetailComponent,canActivate: [AuthGuard]
   },
   {
     path:'home/products',
-    component:ProductListComponent
+    component:ProductListComponent,canActivate: [AuthGuard]
   },
   {
     path:'home/search',
-    component:ProductSearchComponent
-  }/*,
+    component:ProductSearchComponent,canActivate: [AuthGuard]
+  },
+  {
+    path:'home/my-produts',
+    component:MyProductsComponent,canActivate: [AuthGuard]
+  },
+  {
+    path:'my-products/detail/:id',
+    component:MyProductDetailComponent,canActivate: [AuthGuard]
+  },
+  {
+    path: '',
+    component: LoginComponent
+
+  },
+
+  /*,
   {
     path: 'admin',
     loadChildren: 'app/admin/admin.module#AdminModule',

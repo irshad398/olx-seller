@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent {
   userLogin={
-    name:'',
+    email:'',
     password:''
   }
   constructor(private _loginService :LoginService, private router : Router){}
@@ -17,11 +17,12 @@ export class LoginComponent {
     this._loginService.submitLoginData(this.userLogin)
       .subscribe(data=>{
           alert("Login Successfull!'");
+          //console.log(this._loginService.getUserDetails())
           this.router.navigate(['/home']);
         },
         error=>{
           alert("Invalid credentials!! Please enter correct login details");
-          this.router.navigate(['/home']);
+          this.router.navigate(['/login']);
           }
       );
   }

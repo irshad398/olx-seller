@@ -1,7 +1,4 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!--<navigation></navigation>-->
-
-<!--<nav class="navbar navbar-default">
+<nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Olx-Seller</a>
@@ -10,9 +7,9 @@
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
       <li><a >Services</a></li>
       <li><a >About us</a></li>
-      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li *ngIf="user"><a >Welcome {{user.seller_name}}</a></li>
+      <li *ngIf="user"><a (click)="logout()">Logout</a></li>
     </ul>
   </div>
-</nav>-->
-<router-outlet></router-outlet>
-
+</nav>
+<!--<router-outlet></router-outlet>-->

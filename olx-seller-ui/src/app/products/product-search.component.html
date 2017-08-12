@@ -1,4 +1,17 @@
-
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Olx-Seller</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a >Services</a></li>
+      <li><a >About us</a></li>
+      <li *ngIf="user"><a >Welcome {{user.seller_name}}</a></li>
+      <li *ngIf="user"><a (click)="logout()">Logout</a></li>
+    </ul>
+  </div>
+</nav>
 
 <div class="tabbable">
   <ul class="nav nav-tabs">
@@ -6,12 +19,16 @@
       All Products
     </a>
     </li>
-    <li class="active"><a  routerLink="/home/search" routerLinkActive="active" data-toggle="tab">
+    <li class="active"><a routerLink="/home/search" routerLinkActive="active" data-toggle="tab">
       Search Products
     </a>
     </li>
+    <li><a routerLink="/home/my-produts" routerLinkActive="active" data-toggle="tab">
+      My Products
+    </a>
   </ul>
 </div>
+
 <div class="container" style="margin-left: 25%;margin-top: 2%">
 <form class="navbar-form" #searchForm="ngForm" (ngSubmit)="searchProduct(searchForm.value)"  novalidate>
   <div>

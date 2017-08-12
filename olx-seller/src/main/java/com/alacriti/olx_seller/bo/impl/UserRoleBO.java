@@ -15,16 +15,17 @@ public class UserRoleBO extends BaseBO {
 	}
 	
 	
-	public void checkUserLogin(UserLoginVO userLoginVO) throws DAOException, BOException{
-		
+	public boolean checkUserLogin(UserLoginVO userLoginVO) throws DAOException, BOException{
+		boolean isValidUser;
 		try {
 			UserDAO userDAO =   new UserDAO(getConnection());
-			userDAO.checkUserLogin(userLoginVO);
+			isValidUser = userDAO.checkUserLogin(userLoginVO);
 			
 		} catch (Exception e) {
 			System.out.println("Exception in retrieveMessage " + e.getMessage());
 			throw new BOException();
 		}
+		return isValidUser;
 	}
 
 

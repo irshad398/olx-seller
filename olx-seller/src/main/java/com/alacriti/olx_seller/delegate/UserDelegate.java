@@ -9,21 +9,22 @@ import com.alacriti.olx_seller.model.vo.UserRegisterVO;
 
 public class UserDelegate extends BaseDelegate {
 
-	public void checkUserLogin(UserLoginVO userLoginVO) {
+	public boolean checkUserLogin(UserLoginVO userLoginVO) {
+		boolean isValidUser = false;
 		boolean rollBack = false;
 		Connection connection = null;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
 			UserRoleBO userRoleBO = new UserRoleBO(getConnection());
-			userRoleBO.checkUserLogin(userLoginVO);
+			isValidUser = userRoleBO.checkUserLogin(userLoginVO);
 		} catch (Exception e) {
 			System.out.println("Exception in getMessage " + e.getMessage());
 			rollBack = true;
 		} finally {
 			endDBTransaction(connection, rollBack);
 		}
-
+		return isValidUser;
 	}
 	public void registerUser(UserRegisterVO userRegisterVO){
 		boolean rollBack=false;

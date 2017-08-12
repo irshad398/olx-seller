@@ -1,0 +1,68 @@
+<!--
+<hr>
+<h4>{{product.title}} Detail</h4>
+<div>Id: {{product.id}}</div>
+<div>Name:
+  <input [(ngModel)]="product.price">
+</div>
+<div>Category<input [(ngModel)]="product.category_name></div>
+
+-->
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Olx-Seller</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a>Services</a></li>
+      <li><a>About us</a></li>
+      <li *ngIf="user"><a>Welcome {{user.seller_name}}</a></li>
+      <li *ngIf="user"><a>Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li><a routerLink="/home/products" routerLinkActive="active" data-toggle="tab">
+      All Products
+    </a>
+    </li>
+    <li><a routerLink="/home/search" routerLinkActive="active" data-toggle="tab">
+      Search Products
+    </a>
+    </li>
+    <li><a routerLink="/home/my-produts" routerLinkActive="active" data-toggle="tab">
+      My Products
+    </a>
+  </ul>
+</div>
+
+<div *ngIf="myProduct" class="container-fluid" style="width:50%;margin-top: 30px">
+  <form>
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input class="form-control" id="title" placeholder="Title" name="title" [(ngModel)]="myProduct.title">
+    </div>
+    <!--<input [(ngModel)]="myProduct.category_name" name="category_name">-->
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input class="form-control" id="price" placeholder="Price" name="price" [(ngModel)]="myProduct.price">
+    </div>
+    <div class="form-group">
+      <label for="model">Model:</label>
+      <input class="form-control" id="model" placeholder="Model" name="model" [(ngModel)]="myProduct.model">
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input class="form-control" id="description" placeholder="Description" name="description"
+             [(ngModel)]="myProduct.description">
+    </div>
+  </form>
+
+  <br/>
+  <button class=".btn-primary" (click)="updateProduct(myProduct)">Update</button>
+  <button class="btn pull-right" (click)="goBack()">Go Back</button>
+</div>

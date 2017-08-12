@@ -3,6 +3,8 @@ package com.alacriti.olx_seller.delegate;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import com.alacriti.olx_seller.bo.impl.ProductBO;
 import com.alacriti.olx_seller.model.vo.ProductVO;
 import com.alacriti.olx_seller.model.vo.SearchProdutVO;
@@ -103,5 +105,43 @@ public class ProductDelegate extends BaseDelegate {
 		finally {
 			endDBTransaction(connection, rollBack);
 		}
+	}
+
+	public boolean deleteProduct(int seller_id, int product_id) {
+		boolean rollBack=false;
+		Connection connection = null;
+		try{
+			connection = startDBTransaction();
+			setConnection(connection);
+			ProductBO productBO = new ProductBO(getConnection());
+			return productBO.deleteProduct(seller_id,product_id);
+		}
+		catch(Exception e){
+			System.out.println("Exception in deleteProduct " + e.getMessage());
+			rollBack = true;
+		}
+		finally {
+			endDBTransaction(connection, rollBack);
+		}
+		return false;
+	}
+
+	public boolean updateProduct(ProductVO productVO, int seller_id, int product_id) {
+		boolean rollBack=false;
+		Connection connection = null;
+		try{
+			connection = startDBTransaction();
+			setConnection(connection);
+			ProductBO productBO = new ProductBO(getConnection());
+			return productBO.updateProduct(productVO, seller_id,product_id);
+		}
+		catch(Exception e){
+			System.out.println("Exception in deleteProduct " + e.getMessage());
+			rollBack = true;
+		}
+		finally {
+			endDBTransaction(connection, rollBack);
+		}
+		return false;
 	}
 }
