@@ -89,14 +89,14 @@ public class ProductDelegate extends BaseDelegate {
 		return products;
 	}
 
-	public void addProduct(ProductVO productVO) {
+	public boolean addProduct(ProductVO productVO) {
 		boolean rollBack=false;
 		Connection connection = null;
 		try{
 			connection = startDBTransaction();
 			setConnection(connection);
 			ProductBO productBO = new ProductBO(getConnection());
-			productBO.addProduct(productVO);
+			return productBO.addProduct(productVO);
 		}
 		catch(Exception e){
 			System.out.println("Exception in addProduct " + e.getMessage());
@@ -105,6 +105,7 @@ public class ProductDelegate extends BaseDelegate {
 		finally {
 			endDBTransaction(connection, rollBack);
 		}
+		return false;
 	}
 
 	public boolean deleteProduct(int seller_id, int product_id) {

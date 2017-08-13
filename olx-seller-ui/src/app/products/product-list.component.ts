@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
   styleUrls :['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit{
+  private p: number = 1;
   products:Product[];
   selectedProduct:Product;
 

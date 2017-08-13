@@ -37,7 +37,7 @@ const appRoutes: Routes = [
     component:ProductSearchComponent,canActivate: [AuthGuard]
   },
   {
-    path:'home/my-produts',
+    path:'home/my-products',
     component:MyProductsComponent,canActivate: [AuthGuard]
   },
   {

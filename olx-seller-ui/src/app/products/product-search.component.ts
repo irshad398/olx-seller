@@ -17,6 +17,7 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./product-search.component.css'],
 })
 export class ProductSearchComponent implements OnInit {
+  private p: number = 1;
   searchInput={
     title:'',
     catId:''

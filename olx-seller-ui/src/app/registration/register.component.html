@@ -1,43 +1,18 @@
-<!--
-<div class="container" style="width:20%;margin-top: 10%">
-  <form  #loginForm="ngForm" (ngSubmit)="login()">
-    <div class="form-group ">
-      <label>Name</label>
-      <input type="email" class="form-control" required [(ngModel)]="loginInfo.name" name="loginId">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Olx-Seller</a>
     </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input id="password" type="password" class="form-control" #password required
-             [(ngModel)]="loginInfo.password" name="password">
-    </div>
-    <div class="forgetmenot pull-left">
-      <label for="rememberme"><input name="rememberme" id="rememberme" value="forever" type="checkbox">Remember Me</label>
-    </div>
-    <div class="submit pull-right">
-      <button type="submit" class="btn btn-primary"
-              [disabled]="!loginForm.form.valid"
-              value="Login" name="loginButton">Login
-      </button>
-    </div>
-    <span class="clearfix"></span>
-  </form>
-</div>
--->
+    <ul class="nav navbar-nav">
+      <li><a>Home</a></li>
+      <li><a>Services</a></li>
+      <li><a>About us</a></li>
+      <li><a href="/login">Login</a> </li>
 
+    </ul>
+  </div>
+</nav>
 
-<!--
-<form  [formGroup]="userForm" (ngSubmit)="onSubmit()" >
-  <input type="text" fromControlName="name" placeholder="Name">
-  <input type="text" fromControlName="email" placeholder="Email">
-  <input type="text" fromControlName="password" placeholder="Password">
-  <input type="text" fromControlName="confirmPassword" placeholder="Confirm password">
-  <input type="text" fromControlName="phoneNumber" placeholder="Phone Number">
-
-  <input type="text" fromControlName="answer" placeholder="Answer">
-  <button type="submit" [disabled]="!userForm.valid">Submit</button>
-</form>
-<p>Form Values:{{userForm.value||json}}</p>
--->
 
 <div class="container">
 

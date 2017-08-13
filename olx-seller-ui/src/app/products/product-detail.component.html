@@ -34,7 +34,7 @@
       Search Products
     </a>
     </li>
-    <li><a routerLink="/home/my-produts" routerLinkActive="active" data-toggle="tab">
+    <li><a routerLink="/home/my-products" routerLinkActive="active" data-toggle="tab">
       My Products
     </a>
   </ul>
@@ -68,8 +68,8 @@
       <td>{{product.description}}</td>
     </tr>
     <tr>
-      <td>Last updated on</td>
-      <td>{{product.postedOn}}</td>
+      <td>Posted on</td>
+      <td>{{product.postedOn | date }}</td>
     </tr>
     <tr>
       <td>Seller details</td>

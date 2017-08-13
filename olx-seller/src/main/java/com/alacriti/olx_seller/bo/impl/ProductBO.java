@@ -71,11 +71,11 @@ public class ProductBO extends BaseBO {
 		return products;
 	}
 
-	public void addProduct(ProductVO productVO) throws DAOException,
+	public boolean addProduct(ProductVO productVO) throws DAOException,
 			BOException {
 		try {
 			ProductDAO productDAO = new ProductDAO(getConnection());
-			productDAO.addProduct(productVO);
+			return productDAO.addProduct(productVO);
 		} catch (Exception e) {
 			System.out.println("Exception in retrieveAddProduct "
 					+ e.getMessage());

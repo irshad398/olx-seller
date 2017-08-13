@@ -23,7 +23,7 @@
       Search Products
     </a>
     </li>
-    <li><a routerLink="/home/my-produts" routerLinkActive="active" data-toggle="tab">
+    <li><a routerLink="/home/my-products" routerLinkActive="active" data-toggle="tab">
       My Products
     </a>
   </ul>
@@ -47,23 +47,18 @@
 </div>
 <br/>
 
-
-<div class="container" style="margin-top: 2%">
+<div class="container" style="margin-top: 2%;width: 50%">
   <ul class="list-group" id="products">
-    <li class="list-group-item" id="items" *ngFor="let product of returnedProducts" (click)="selectProduct(product)">
-      {{product.title}}
+    <li class="list-group-item" id="items" *ngFor="let product of returnedProducts | paginate: { itemsPerPage: 3, currentPage: p }">
+      <h3>{{product.title}}</h3>
+      <h3>&#8377; {{product.price}}</h3>
+      <h4>Model: {{product.model}}</h4>
+      <h4>Posted on: {{product.postedOn | date}}</h4>
+      <button class="btn btn-info pull-right" (click)="gotoDetail(product.product_id)">View Details</button>
+      <br/>
+      <br/>
+      <br/>
     </li>
   </ul>
-
-  <div *ngIf="selectedProduct" class="selectedProduct">
-    <h2>
-      {{selectedProduct.title}}
-    </h2>
-    <h3>
-      Price: &#8377; {{selectedProduct.price}}
-    </h3>
-    <button class="btn" (click)="gotoDetail(selectedProduct.product_id)">
-      View Details
-    </button>
-  </div>
+  <pagination-controls (pageChange)="this.p = $event"></pagination-controls>
 </div>

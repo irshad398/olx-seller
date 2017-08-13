@@ -12,6 +12,7 @@ public class AuthenticationUtil {
 	}
 	public void createSession(HttpServletRequest request,UserLoginVO userLoginVo){
 		try{
+			destroySession(request);
 			HttpSession session = request.getSession(true);
 			session.setAttribute("email", userLoginVo.getEmail());
 			session.setAttribute("seller_id", userLoginVo.getSeller_id());

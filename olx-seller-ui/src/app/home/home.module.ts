@@ -4,6 +4,7 @@ import {HomeComponent} from "./home.component";
 import {ProductsModule} from "../products/products.module";
 import {AppRoutingModule} from "../app-routing.module";
 import {NavigationComponent} from "./navigation.component";
+import {RouterModule} from "@angular/router";
 
 
 
@@ -11,7 +12,7 @@ import {NavigationComponent} from "./navigation.component";
   declarations: [HomeComponent,NavigationComponent
   ],
   imports: [
-    BrowserModule,ProductsModule,AppRoutingModule
+    BrowserModule,ProductsModule,AppRoutingModule,RouterModule
 
   ],
   providers: [],

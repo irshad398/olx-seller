@@ -10,6 +10,8 @@ import {RouterModule} from "@angular/router";
 import {HomeModule} from "../home/home.module";
 import {MyProductsComponent} from "./my-products.component";
 import {MyProductDetailComponent} from "./myproduct-detail.component";
+import {AppRoutingModule} from "../app-routing.module";
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -19,7 +21,7 @@ import {MyProductDetailComponent} from "./myproduct-detail.component";
     MyProductsComponent,MyProductDetailComponent
   ],
   imports: [
-    BrowserModule, FormsModule, RouterModule
+    BrowserModule, FormsModule, RouterModule,AppRoutingModule,NgxPaginationModule
 
   ],
   providers: [ProductService, ProductSearchService],

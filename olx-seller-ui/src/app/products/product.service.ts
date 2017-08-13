@@ -12,7 +12,6 @@ export class ProductService {
   res: any;
   private _getProductsUrl: string = "http://localhost:8080/olx-seller-1/products";
   private _myProductsUrl: string = "http://localhost:8080/olx-seller-1/user/products";
-  private _upDateProductUrl:string= "http://localhost:8080/olx-seller-1/user";
 
   constructor(private _http: Http) {
   }
@@ -39,6 +38,13 @@ export class ProductService {
   updateProduct(myProduct){
     return this._http.put(this._myProductsUrl,myProduct,{withCredentials:true})
       .map(response=>(response.toString()));
+  }
+  addProduct(newProduct){
+    return this._http.post(this._myProductsUrl,newProduct,{withCredentials:true})
+  }
+  deleteMyProduct(myProductId){
+    console.log("I am in product service..going to delete: "+myProductId)
+    return this._http.delete(this._myProductsUrl+'/'+myProductId,{withCredentials:true});
   }
   goBack() {
 

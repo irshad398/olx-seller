@@ -2,7 +2,6 @@ package com.alacriti.olx_seller.resources;
 
 import java.util.ArrayList;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
@@ -35,7 +34,6 @@ public class UserResource {
 			@Context HttpServletRequest request) {
 		UserDelegate userDelegate = new UserDelegate();
 		AuthenticationUtil auth = new AuthenticationUtil();
-		
 		isValidUser = userDelegate.checkUserLogin(userLoginVo);
 		if (isValidUser) {
 			auth.createSession(request, userLoginVo);
@@ -71,9 +69,10 @@ public class UserResource {
 	public Response getSellerProducts(@Context HttpServletRequest request) {
 		System.out.println("/user/products hitted");
 		int seller_id;
+		AuthenticationUtil auth = new AuthenticationUtil();
 		ProductDelegate productDelegate = new ProductDelegate();
 		ArrayList<ProductVO> products=null;
-		HttpSession session = request.getSession(false);
+		HttpSession session = auth.getSession(request);
 		System.out.println(session);
 		if (session != null) {
 			seller_id = (Integer) session.getAttribute("seller_id");
@@ -87,7 +86,7 @@ public class UserResource {
 	@POST
 	@Path("products")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addProduct(ProductVO productVO,
+	public boolean addProduct(ProductVO productVO,
 			@Context HttpServletRequest request) {
 		AuthenticationUtil auth = new AuthenticationUtil();
 		ProductDelegate productDelegate = new ProductDelegate();
@@ -96,10 +95,10 @@ public class UserResource {
 		if (session != null) {
 			seller_id = (Integer) session.getAttribute("seller_id");
 			productVO.setSeller_id(seller_id);
-			productDelegate.addProduct(productVO);
-			return Response.status(200).entity(productVO).build();
+			return productDelegate.addProduct(productVO);
+			
 		}
-		return Response.status(200).entity(null).build();
+		return false;
 	}
 
 	@DELETE
@@ -107,6 +106,7 @@ public class UserResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public boolean deleteProduct(@PathParam("product_id") int product_id,
 			@Context HttpServletRequest request) {
+		System.out.println("Delete Product method called with product_id: "+product_id);
 		AuthenticationUtil auth = new AuthenticationUtil();
 		ProductDelegate productDelegate = new ProductDelegate();
 		int seller_id;

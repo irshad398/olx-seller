@@ -17,10 +17,11 @@ export class LoginService{
   private _loginUrl:string="http://localhost:8080/olx-seller-1/user/login";
   private _logoutUrl:string="http://localhost:8080/olx-seller-1/user/logout";
   msg:any;
+
   constructor(private _http:Http){}
   submitLoginData(loginData)
   {
-    var headers=new Headers();
+    const headers=new Headers();
     headers.append('Content-Type',
       'application/json');
 
@@ -44,7 +45,10 @@ export class LoginService{
     }
   }
   logout(){
+    const headers=new Headers();
+    headers.append('Content-Type',
+      'application/json');
     console.log("Logout called in login service")
-    return this._http.get(this._logoutUrl).map((res:Response)=>this.msg= res.json());
+    return this._http.get(this._logoutUrl,{headers:headers,withCredentials:true}).map((res:Response)=>this.msg= res.json());
   }
 }

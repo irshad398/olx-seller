@@ -237,7 +237,7 @@ public class ProductDAO extends BaseDAO {
 		}
 	}
 
-	public void addProduct(ProductVO productVO) throws DAOException {
+	public boolean addProduct(ProductVO productVO) throws DAOException {
 		PreparedStatement stmt = null;
 		String sqlCmd = "sql cmd";
 		int count;
@@ -255,6 +255,10 @@ public class ProductDAO extends BaseDAO {
 			count = stmt.executeUpdate();
 			if (count > 0) {
 				System.out.println("Product Added successfully");
+				return true;
+			}
+			else{
+				return false;
 			}
 
 		} catch (SQLException e) {
