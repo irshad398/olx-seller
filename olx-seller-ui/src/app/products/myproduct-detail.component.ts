@@ -16,7 +16,8 @@ export class MyProductDetailComponent {
 
   constructor(private _productService: ProductService,
               private route: ActivatedRoute,
-              private location: Location) { }
+              private location: Location) {
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: ParamMap) => {
@@ -29,12 +30,14 @@ export class MyProductDetailComponent {
         this.myProduct = data;
       });
   }
+
   updateProduct(myProduct) {
     this._productService.updateProduct(myProduct)
-      .subscribe(data=>{
+      .subscribe(data => {
         alert("updated! ");
       });
   }
+
   goBack(): void {
     this.location.back();
   }

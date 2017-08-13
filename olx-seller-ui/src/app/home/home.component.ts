@@ -6,12 +6,12 @@ import {LoginService} from "../login/login.service";
 
 @Component({
   // selector:'seller-home',
-  templateUrl :'./home.component.html',
-  styleUrls :['./home.component.css'],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
 
 })
-export class HomeComponent implements OnInit{
-  ngOnInit(){
+export class HomeComponent implements OnInit {
+  ngOnInit() {
     console.log('hai');
-}
+  }
 }

@@ -12,16 +12,19 @@ import {MyProductsComponent} from "./my-products.component";
 import {MyProductDetailComponent} from "./myproduct-detail.component";
 import {AppRoutingModule} from "../app-routing.module";
 import {NgxPaginationModule} from "ngx-pagination";
+import {Ng2OrderModule} from "ng2-order-pipe";
 
 @NgModule({
   declarations: [
     ProductSearchComponent,
     ProductListComponent,
     ProductDetailComponent,
-    MyProductsComponent,MyProductDetailComponent
+    MyProductsComponent, MyProductDetailComponent
   ],
   imports: [
-    BrowserModule, FormsModule, RouterModule,AppRoutingModule,NgxPaginationModule
+    BrowserModule, FormsModule, RouterModule,
+    AppRoutingModule, NgxPaginationModule,
+    Ng2OrderModule
 
   ],
   providers: [ProductService, ProductSearchService],

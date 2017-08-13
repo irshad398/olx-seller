@@ -3,31 +3,34 @@ import {LoginService} from "../login/login.service";
 import {Router} from "@angular/router";
 
 @Component({
-  selector:'seller-home',
-  templateUrl :'./navigation.component.html',
+  selector: 'seller-home',
+  templateUrl: './navigation.component.html',
 
 
 })
-export class NavigationComponent implements OnInit{
+export class NavigationComponent implements OnInit {
 
   title = 'Seller Home';
   public user;
-  msg:any;
-  constructor(private loginService:LoginService,private router:Router){  }
+  msg: any;
+
+  constructor(private loginService: LoginService, private router: Router) {
+  }
+
   ngOnInit(): void {
-    this.loginService.getUserDetails().then((response ) => {
+    this.loginService.getUserDetails().then((response) => {
       this.user = response;
       console.log(response)
-    }).catch((error) =>
-    {
+    }).catch((error) => {
       console.log("Error");
     });
   }
-  logout(){
 
-    this.msg=this.loginService.logout();
-    if(this.msg==true){
-        console.log("Logged out!")
+  logout() {
+
+    this.msg = this.loginService.logout();
+    if (this.msg == true) {
+      console.log("Logged out!")
     }
     this.router.navigate(['/login'])
   }

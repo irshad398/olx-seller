@@ -32,20 +32,24 @@ export class ProductService {
   }
 
   getMyProducts(): Observable<Product[]> {
-    return this._http.get(this._myProductsUrl,{withCredentials:true})
+    return this._http.get(this._myProductsUrl, {withCredentials: true})
       .map(response => this.myProducts = (response.json()));
   }
-  updateProduct(myProduct){
-    return this._http.put(this._myProductsUrl,myProduct,{withCredentials:true})
-      .map(response=>(response.toString()));
+
+  updateProduct(myProduct) {
+    return this._http.put(this._myProductsUrl, myProduct, {withCredentials: true})
+      .map(response => (response.toString()));
   }
-  addProduct(newProduct){
-    return this._http.post(this._myProductsUrl,newProduct,{withCredentials:true})
+
+  addProduct(newProduct) {
+    return this._http.post(this._myProductsUrl, newProduct, {withCredentials: true})
   }
-  deleteMyProduct(myProductId){
-    console.log("I am in product service..going to delete: "+myProductId)
-    return this._http.delete(this._myProductsUrl+'/'+myProductId,{withCredentials:true});
+
+  deleteMyProduct(myProductId) {
+    console.log("I am in product service..going to delete: " + myProductId)
+    return this._http.delete(this._myProductsUrl + '/' + myProductId, {withCredentials: true});
   }
+
   goBack() {
 
   }

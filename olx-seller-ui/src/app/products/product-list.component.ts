@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 })
 export class ProductListComponent implements OnInit{
   private p: number = 1;
+  order:string="title";
   products:Product[];
   selectedProduct:Product;
 

@@ -17,7 +17,8 @@ export class ProductDetailComponent {
 
   constructor(private _productService: ProductService,
               private route: ActivatedRoute,
-              private location: Location) { }
+              private location: Location) {
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: ParamMap) => {

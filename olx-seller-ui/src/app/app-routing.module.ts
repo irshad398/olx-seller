@@ -14,35 +14,35 @@ const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-  },{
+  }, {
     path: 'register',
     component: RegisterComponent
 
   },
   {
-    path:'home',
-    component:HomeComponent,canActivate: [AuthGuard]
+    path: 'home',
+    component: HomeComponent, canActivate: [AuthGuard]
     /*,canActivate: [AuthGuard]*/
   },
   {
-    path:'products/detail/:id',
-    component:ProductDetailComponent,canActivate: [AuthGuard]
+    path: 'products/detail/:id',
+    component: ProductDetailComponent, canActivate: [AuthGuard]
   },
   {
-    path:'home/products',
-    component:ProductListComponent,canActivate: [AuthGuard]
+    path: 'home/products',
+    component: ProductListComponent, canActivate: [AuthGuard]
   },
   {
-    path:'home/search',
-    component:ProductSearchComponent,canActivate: [AuthGuard]
+    path: 'home/search',
+    component: ProductSearchComponent, canActivate: [AuthGuard]
   },
   {
-    path:'home/my-products',
-    component:MyProductsComponent,canActivate: [AuthGuard]
+    path: 'home/my-products',
+    component: MyProductsComponent, canActivate: [AuthGuard]
   },
   {
-    path:'my-products/detail/:id',
-    component:MyProductDetailComponent,canActivate: [AuthGuard]
+    path: 'my-products/detail/:id',
+    component: MyProductDetailComponent, canActivate: [AuthGuard]
   },
   {
     path: '',
@@ -75,7 +75,7 @@ const appRoutes: Routes = [
   exports: [
     RouterModule
   ],
-  providers: [
-  ]
+  providers: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -16,9 +16,9 @@
     </div>
     <ul class="nav navbar-nav">
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a >Services</a></li>
-      <li><a >About us</a></li>
-      <li *ngIf="user"><a >Welcome {{user.seller_name}}</a></li>
+      <li><a>Services</a></li>
+      <li><a>About us</a></li>
+      <li *ngIf="user"><a>Welcome {{user.seller_name}}</a></li>
       <li *ngIf="user"><a>Logout</a></li>
     </ul>
   </div>
@@ -26,11 +26,11 @@
 
 <div class="tabbable">
   <ul class="nav nav-tabs">
-    <li><a  routerLink="/home/products" routerLinkActive="active" data-toggle="tab">
+    <li><a routerLink="/home/products" routerLinkActive="active" data-toggle="tab">
       All Products
     </a>
     </li>
-    <li ><a  routerLink="/home/search" routerLinkActive="active" data-toggle="tab">
+    <li><a routerLink="/home/search" routerLinkActive="active" data-toggle="tab">
       Search Products
     </a>
     </li>
@@ -74,8 +74,9 @@
     <tr>
       <td>Seller details</td>
       <td>Name: {{product.seller_name}}<br/>
-          Contact: {{product.phone_no}}<br/>
-          Email: {{product.email}}</td>
+        Contact: {{product.phone_no}}<br/>
+        Email: {{product.email}}
+      </td>
     </tr>
 
   </table>

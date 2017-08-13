@@ -11,13 +11,13 @@ import {RegisterService} from "./register.service";
 })
 export class RegisterComponent{
   title="registration";
-  user={
-    name:'',
-    password:'',
-    phoneNumber:'',
-    email:'',
-    question:'',
-    answer:'',
+  user = {
+    name: '',
+    password: '',
+    phoneNumber: '',
+    email: '',
+    question: '',
+    answer: '',
   };
   constructor(private _registerService :RegisterService, private router : Router){}
 

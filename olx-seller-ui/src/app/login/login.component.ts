@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {LoginService} from "./login.service";
 import {Router} from "@angular/router";
 
@@ -8,22 +8,25 @@ import {Router} from "@angular/router";
   styleUrls: ['login.component.css']
 })
 export class LoginComponent {
-  userLogin={
-    email:'',
-    password:''
+  userLogin = {
+    email: '',
+    password: ''
   }
-  constructor(private _loginService :LoginService, private router : Router){}
-  login(){
+
+  constructor(private _loginService: LoginService, private router: Router) {
+  }
+
+  login() {
     this._loginService.submitLoginData(this.userLogin)
-      .subscribe(data=>{
+      .subscribe(data => {
           alert("Login Successfull!'");
           //console.log(this._loginService.getUserDetails())
           this.router.navigate(['/home']);
         },
-        error=>{
+        error => {
           alert("Invalid credentials!! Please enter correct login details");
           this.router.navigate(['/login']);
-          }
+        }
       );
   }
 }

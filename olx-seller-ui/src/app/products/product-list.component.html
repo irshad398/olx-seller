@@ -5,16 +5,16 @@
     </div>
     <ul class="nav navbar-nav">
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a >Services</a></li>
-      <li><a >About us</a></li>
-      <li *ngIf="user"><a >Welcome {{user.seller_name}}</a></li>
+      <li><a>Services</a></li>
+      <li><a>About us</a></li>
+      <li *ngIf="user"><a>Welcome {{user.seller_name}}</a></li>
       <li *ngIf="user"><a (click)="logout()">Logout</a></li>
     </ul>
   </div>
 </nav>
 <div class="tabbable">
   <ul class="nav nav-tabs">
-    <li class="active"><a  routerLink="/home/products" routerLinkActive="active" data-toggle="tab">
+    <li class="active"><a routerLink="/home/products" routerLinkActive="active" data-toggle="tab">
       All Products
     </a>
     </li>
@@ -28,9 +28,16 @@
   </ul>
 </div>
 
+
 <div class="container" style="margin-top: 2%;width: 50%">
+  <div class="radio" style="text-align: right">
+    Sort By<br/>
+    <input type="radio" [(ngModel)]="order" name="sort" value="price">Price<br>
+    <input type="radio" [(ngModel)]="order" name="sort" value="postedOn">Post
+  </div>
   <ul class="list-group" id="products">
-    <li class="list-group-item" id="items" *ngFor="let product of products | paginate: { itemsPerPage: 3, currentPage: p }">
+    <li class="list-group-item" id="items"
+        *ngFor="let product of products|orderBy:order | paginate: { itemsPerPage: 3, currentPage: p }">
       <h3>{{product.title}}</h3>
       <h3>&#8377; {{product.price}}</h3>
       <h4>Model: {{product.model}}</h4>

@@ -14,7 +14,7 @@ import {AuthGuard} from "./authguard";
     AppComponent
   ],
   imports: [
-    BrowserModule,LoginModule,AppRoutingModule,RegisterModule,HomeModule
+    BrowserModule,LoginModule,AppRoutingModule,RegisterModule, HomeModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

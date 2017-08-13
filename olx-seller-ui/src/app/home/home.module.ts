@@ -7,15 +7,15 @@ import {NavigationComponent} from "./navigation.component";
 import {RouterModule} from "@angular/router";
 
 
-
 @NgModule({
-  declarations: [HomeComponent,NavigationComponent
+  declarations: [HomeComponent, NavigationComponent
   ],
   imports: [
-    BrowserModule,ProductsModule,AppRoutingModule,RouterModule
+    BrowserModule, ProductsModule, AppRoutingModule, RouterModule
 
   ],
   providers: [],
-  exports:[NavigationComponent]
+  exports: [NavigationComponent]
 })
-export class HomeModule{}
+export class HomeModule {
+}

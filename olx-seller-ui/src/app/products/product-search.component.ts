@@ -18,32 +18,37 @@ import 'rxjs/add/operator/switchMap';
 })
 export class ProductSearchComponent implements OnInit {
   private p: number = 1;
-  searchInput={
-    title:'',
-    catId:''
+  order: string = "title";
+  searchInput = {
+    title: '',
+    catId: ''
   };
-  returnedProducts:Product[];
-  selectedProduct:Product;
+  returnedProducts: Product[];
+  selectedProduct: Product;
+
   constructor(private _productSearchService: ProductSearchService,
               private router: Router) {
   }
 
-  searchProduct(searchData){
+  searchProduct(searchData) {
     console.log(searchData)
     this._productSearchService.searchProduct(searchData)
-      .subscribe(data=>{
-        this.returnedProducts=data;
-      },()=>{ console.log("error in searching data")
+      .subscribe(data => {
+        this.returnedProducts = data;
+      }, () => {
+        console.log("error in searching data")
       });
 
   }
-  selectProduct(product:Product){
-    this.selectedProduct=product;
+
+  selectProduct(product: Product) {
+    this.selectedProduct = product;
   }
+
   gotoDetail(selectedProductId) {
 
     console.log(selectedProductId);
-    this.router.navigate(['products/detail/'+ selectedProductId,{id:selectedProductId}]);
+    this.router.navigate(['products/detail/' + selectedProductId, {id: selectedProductId}]);
   }
 
   ngOnInit(): void {
