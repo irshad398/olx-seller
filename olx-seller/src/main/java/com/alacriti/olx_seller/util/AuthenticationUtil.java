@@ -27,13 +27,15 @@ public class AuthenticationUtil {
 		HttpSession session = request.getSession(false);
 		return session;
 	}
-	public void destroySession(HttpServletRequest request) {
+	public boolean destroySession(HttpServletRequest request) {
 		HttpSession existingSession = request.getSession(false);
 		try{
 			existingSession.invalidate();
 			System.out.println("Logged out successfully...");
+			return true;
 		}catch(Exception e){
 			System.out.println("Exception in destroying the session: "+e);
+			return false;
 		}
 		
 	}

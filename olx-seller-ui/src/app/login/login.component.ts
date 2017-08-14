@@ -19,9 +19,11 @@ export class LoginComponent {
   login() {
     this._loginService.submitLoginData(this.userLogin)
       .subscribe(data => {
+        this._loginService.isLoggedIn.next(true);
+        this._loginService.username.next(data.seller_name);
           alert("Login Successfull!'");
           //console.log(this._loginService.getUserDetails())
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home/products']);
         },
         error => {
           alert("Invalid credentials!! Please enter correct login details");

@@ -1,8 +1,6 @@
 import {ProductSearchService} from "./product-search.service";
 import {Component, OnInit} from "@angular/core";
-import {Observable} from "rxjs/Observable";
 import {Product} from "./product";
-import {Subject} from "rxjs/Subject";
 import {Router} from "@angular/router";
 
 import 'rxjs/add/observable/of';
@@ -10,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
+import {LoginService} from "../login/login.service";
 
 @Component({
   selector: 'product-search',
@@ -25,9 +24,15 @@ export class ProductSearchComponent implements OnInit {
   };
   returnedProducts: Product[];
   selectedProduct: Product;
+  msg: boolean;
+  username: string;
 
   constructor(private _productSearchService: ProductSearchService,
-              private router: Router) {
+              private router: Router, private loginService: LoginService) {
+  }
+
+  ngOnInit(): void {
+    this.loginService.username.subscribe(data => this.username = data);
   }
 
   searchProduct(searchData) {
@@ -51,8 +56,18 @@ export class ProductSearchComponent implements OnInit {
     this.router.navigate(['products/detail/' + selectedProductId, {id: selectedProductId}]);
   }
 
-  ngOnInit(): void {
 
+  logout() {
+
+    this.loginService.logout().subscribe(data => {
+      this.msg = data
+    }, err => {
+      console.log("Error", err)
+    });
+    if (this.msg == true) {
+      console.log("Logged out!")
+    }
+    this.router.navigate(['/login'])
   }
 
 }

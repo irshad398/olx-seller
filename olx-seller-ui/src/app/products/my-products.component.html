@@ -7,8 +7,8 @@
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
       <li><a>Services</a></li>
       <li><a>About us</a></li>
-      <li *ngIf="user"><a>Welcome {{user.seller_name}}</a></li>
-      <li *ngIf="user"><a (click)="logout()">Logout</a></li>
+      <li *ngIf="username"><a>Welcome {{username}}</a></li>
+      <li *ngIf="username"><a (click)="logout()">Logout</a></li>
     </ul>
   </div>
 </nav>
@@ -47,41 +47,75 @@
           <div class="form-group">
             <label for="title">Title:</label>
             <input class="form-control" [ngModel]="newProduct.title" id="title" placeholder="Title" name="title"
-                   required>
+                   required minlength="3" maxlength="100" #titleRef="ngModel">
+            <div *ngIf="titleRef.invalid && (titleRef.dirty || titleRef.touched)"
+                 class="alert alert-danger">
+              <div *ngIf="titleRef.errors.required" style="color: red;">
+                Please title
+              </div>
+              <div *ngIf="titleRef.errors.minlength">
+                Name should be at least of length 3
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label for="soflow">Category:</label>
-            <select class="input-lg" [ngModel]="newProduct.category_id" id="soflow" name="category_id" ngModel required>
+            <select class="input-lg" [ngModel]="newProduct.category_id"
+                    id="soflow" name="category_id" ngModel required #catRef="ngModel">
               <option value="1">Cars</option>
               <option value="2">Mobiles</option>
               <option value="3">Bikes</option>
               <option value="4">Books</option>
             </select>
+            <div *ngIf="catRef.invalid && (catRef.dirty || catRef.touched)"
+                 class="alert alert-danger">
+              <div *ngIf="titleRef.errors.required" style="color: red;">
+                Please select category
+              </div>
+            </div>
           </div>
+
 
           <div class="form-group">
             <label for="price">Price(&#8377;):</label>
             <input class="form-control" [ngModel]="newProduct.price" id="price" placeholder="Price" name="price"
-                   ngModel>
+                   ngModel #priceRef="ngModel" pattern="[0-9]*">
+            <div *ngIf="priceRef.invalid && (priceRef.dirty || priceRef.touched)"
+                 class="alert alert-danger">
+              <div *ngIf="priceRef.errors.required" style="color: red;">
+                Please enter price
+              </div>
+              <div *ngIf="priceRef.errors.pattern">
+                Invalid price
+              </div>
+            </div>
           </div>
           <div class="form-group">
-            <label for="model">Model:</label>
+            <label for="model">Model(optional):</label>
             <input class="form-control" [ngModel]="newProduct.model" id="model" placeholder="Model" name="model"
-                   ngModel>
+                   ngModel maxlength="20">
           </div>
           <div class="form-group">
             <label for="old_or_new">Old/New:</label>
             <select class=" input-lg" [ngModel]="newProduct.old_or_new" id="old_or_new" name="old_or_new" ngModel
-                    required>
+                    required #oldOrNewRef="ngModel">
               <option value="old">Old</option>
               <option value="new">New</option>
             </select>
+            <div *ngIf="oldOrNewRef.invalid && (oldOrNewRef.dirty || oldOrNewRef.touched)"
+                 class="alert alert-danger">
+              <div *ngIf="oldOrNewRef.errors.required" style="color: red;">
+                Please select Old/New
+              </div>
+            </div>
+
           </div>
 
           <div class="form-group">
-            <label for="description">Description:</label>
+            <label for="description">Description(optional):</label>
             <textarea class="form-control" [ngModel]="newProduct.description" id="description" placeholder="Description"
-                      name="description" ngModel></textarea>
+                      name="description" ngModel #descRef="ngModel"></textarea>
+
           </div>
           <button [disabled]="!productForm.form.valid" type="submit" data-dismiss="modal"
                   (click)="addProduct(productForm.value)"

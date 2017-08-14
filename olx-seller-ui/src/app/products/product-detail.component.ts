@@ -2,8 +2,9 @@ import {Component} from '@angular/core';
 
 import {Product} from "./product";
 import {ProductService} from "./product.service";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Location} from '@angular/common';
+import {LoginService} from "../login/login.service";
 
 
 @Component({
@@ -14,15 +15,17 @@ import {Location} from '@angular/common';
 export class ProductDetailComponent {
   product: Product;
   product_id: number;
-
+  username:string;
+  msg:boolean;
   constructor(private _productService: ProductService,
               private route: ActivatedRoute,
-              private location: Location) {
+              private location: Location, private loginService:LoginService,private router:Router) {
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: ParamMap) => {
       this.product_id = params['id']
+      this.loginService.username.subscribe(data=>this.username=data);
     });
 
     this._productService.getProduct(this.product_id)
@@ -34,6 +37,18 @@ export class ProductDetailComponent {
 
   goBack(): void {
     this.location.back();
+  }
+  logout() {
+
+    this.loginService.logout().subscribe(data => {
+      this.msg = data
+    }, err => {
+      console.log("Error", err)
+    });
+    if (this.msg == true) {
+      console.log("Logged out!")
+    }
+    this.router.navigate(['/login'])
   }
 
 }

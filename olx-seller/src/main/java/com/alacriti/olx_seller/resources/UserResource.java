@@ -46,15 +46,14 @@ public class UserResource {
 	@GET
 	@Path("logout")
 	@Produces("application/json")
-	public Response logOut(@Context HttpServletRequest request) {
+	public boolean logOut(@Context HttpServletRequest request) {
 		AuthenticationUtil auth = new AuthenticationUtil();
-		auth.destroySession(request);
-		return Response.status(200).entity(true).build();
+		return auth.destroySession(request);
 
 	}
 
 	@POST
-	@Path("/register")
+	@Path("register")
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response registerUser(UserRegisterVO userRegisterVO) {
@@ -71,7 +70,7 @@ public class UserResource {
 		int seller_id;
 		AuthenticationUtil auth = new AuthenticationUtil();
 		ProductDelegate productDelegate = new ProductDelegate();
-		ArrayList<ProductVO> products=null;
+		ArrayList<ProductVO> products = null;
 		HttpSession session = auth.getSession(request);
 		System.out.println(session);
 		if (session != null) {
@@ -96,7 +95,7 @@ public class UserResource {
 			seller_id = (Integer) session.getAttribute("seller_id");
 			productVO.setSeller_id(seller_id);
 			return productDelegate.addProduct(productVO);
-			
+
 		}
 		return false;
 	}
@@ -106,7 +105,8 @@ public class UserResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public boolean deleteProduct(@PathParam("product_id") int product_id,
 			@Context HttpServletRequest request) {
-		System.out.println("Delete Product method called with product_id: "+product_id);
+		System.out.println("Delete Product method called with product_id: "
+				+ product_id);
 		AuthenticationUtil auth = new AuthenticationUtil();
 		ProductDelegate productDelegate = new ProductDelegate();
 		int seller_id;
@@ -128,13 +128,14 @@ public class UserResource {
 		ProductDelegate productDelegate = new ProductDelegate();
 		int seller_id;
 		int product_id;
-		product_id=productVO.getProduct_id();
+		product_id = productVO.getProduct_id();
 		HttpSession session = auth.getSession(request);
 		if (session != null) {
 			seller_id = (Integer) session.getAttribute("seller_id");
 			productVO.setSeller_id(seller_id);
 			productVO.setProduct_id(product_id);
-			return productDelegate.updateProduct(productVO, seller_id, product_id);
+			return productDelegate.updateProduct(productVO, seller_id,
+					product_id);
 		}
 		// return Response.status(200).entity(product_id).build();
 		return false;

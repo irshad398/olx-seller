@@ -4,6 +4,8 @@ import {Headers} from "@angular/http";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import {isNullOrUndefined} from "util";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class LoginService {
@@ -14,6 +16,9 @@ export class LoginService {
     password: string;
 
   };
+  isLoggedIn:BehaviorSubject<any> = new BehaviorSubject(false);
+  username:BehaviorSubject<any> = new BehaviorSubject("");
+
   private _loginUrl: string = "http://localhost:8080/olx-seller-1/user/login";
   private _logoutUrl: string = "http://localhost:8080/olx-seller-1/user/logout";
   msg: any;
@@ -53,9 +58,10 @@ export class LoginService {
     headers.append('Content-Type',
       'application/json');
     console.log("Logout called in login service")
+    this.userDetails=null
     return this._http.get(this._logoutUrl, {
       headers: headers,
       withCredentials: true
-    }).map((res: Response) => this.msg = res.json());
+    }).map((res: Response) => res.json());
   }
 }

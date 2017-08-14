@@ -3,6 +3,7 @@ import {Product} from "./product";
 import {ProductService} from "./product.service";
 import {Router} from "@angular/router";
 import {Location} from '@angular/common';
+import {LoginService} from "../login/login.service";
 
 @Component({
   selector: 'my-products',
@@ -13,6 +14,8 @@ export class MyProductsComponent implements OnInit {
   myProducts: Product[];
   private p: number = 1;
   order: string = "title";
+  username:string;
+  msg:boolean;
   newProduct = {
     title: '',
     category_id: '',
@@ -22,7 +25,7 @@ export class MyProductsComponent implements OnInit {
     description: '',
   };
 
-  constructor(private _productService: ProductService, private _location: Location, private router: Router) {
+  constructor(private _productService: ProductService, private _location: Location, private router: Router,private loginService:LoginService) {
   }
 
   ngOnInit() {
@@ -30,7 +33,9 @@ export class MyProductsComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         this.myProducts = data
+        this.loginService.username.subscribe(data=>this.username=data);
       });
+
   }
 
   gotoDetail(selectedProductId) {
@@ -78,5 +83,17 @@ export class MyProductsComponent implements OnInit {
           console.log("error in deleting");
         }
       );
+  }
+  logout() {
+
+    this.loginService.logout().subscribe(data => {
+      this.msg = data
+    }, err => {
+      console.log("Error", err)
+    });
+    if (this.msg == true) {
+      console.log("Logged out!")
+    }
+    this.router.navigate(['/login'])
   }
 }

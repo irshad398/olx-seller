@@ -18,8 +18,8 @@
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
       <li><a>Services</a></li>
       <li><a>About us</a></li>
-      <li *ngIf="user"><a>Welcome {{user.seller_name}}</a></li>
-      <li *ngIf="user"><a>Logout</a></li>
+      <li *ngIf="username"><a>Welcome {{username}}</a></li>
+      <li *ngIf="username"><a (click)="logout()">Logout</a></li>
     </ul>
   </div>
 </nav>

@@ -22,36 +22,53 @@
 
     <div class="names">
       <label>Name</label>
-      <input type="text" [ngModel]="user.name" #nameRef="ngModel" minlength="3" maxlength="30" class="form-control"
-             name="name" ngModel
-             required #name><br><br>
-      <div *ngIf="nameRef.errors && (nameRef.dirty || nameRef.touched)">
-        <div [hidden]="!nameRef.errors.required" style="color: red;">
+      <input type="text" [ngModel]="user.name" #nameRef="ngModel"
+             minlength="3" maxlength="20" class="form-control"
+             pattern="[a-zA-Z][a-zA-Z ]+"
+             name="name" ngModel required><br><br>
+      <div *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)"
+           class="alert alert-danger">
+        <div *ngIf="nameRef.errors.required" style="color: red;">
           Please enter name
         </div>
-        <div [hidden]="!nameRef.errors.minlength">
+        <div *ngIf="nameRef.errors.minlength">
           Name should be at least of length 3
         </div>
-        <div [hidden]="nameRef.errors.maxlength">
-          Name must be of length 30 characters
+        <div *ngIf="nameRef.errors.pattern">
+          Invalid name
         </div>
       </div>
+
     </div>
     <div>
       <label>Email</label>
       <input type="text" class="form-control" name="email" ngModel
-             required #emailRef [ngModel]="user.email"
-             pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"><br><br>
-
-      <small [hidden]="emailRef.errors || (emailRef.pristine && !userform.submitted)" class="text-danger">
-        Email is required and format should be <i>kmi@mail.com</i>.
-      </small>
+             required #emailRef="ngModel" [ngModel]="user.email"
+             pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"><br><br>
+      <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)"
+           class="alert alert-danger">
+        <div *ngIf="emailRef.errors.required" style="color: red;">
+          Please enter email
+        </div>
+        <div *ngIf="emailRef.errors.pattern">
+          Invalid email
+        </div>
+      </div>
 
     </div>
     <div class="names">
       <label>Password </label>&nbsp;
       <input type="password" class="form-control" name="password" [ngModel]="user.password" ngModel required
-             #passRef><br><br>
+             #passRef="ngModel" minlength="6" maxlength="30"><br><br>
+      <div *ngIf="passRef.invalid && (passRef.dirty || passRef.touched)"
+           class="alert alert-danger">
+        <div *ngIf="passRef.errors.required" style="color: red;">
+          Please enter password
+        </div>
+        <div *ngIf="passRef.errors.minlength">
+          Enter minimum 6 characters
+        </div>
+      </div>
     </div>
     <div class="names">
       <label>Confirm password </label>
@@ -63,7 +80,18 @@
     </div>
     <div>
       <label>Phone No</label>&nbsp;
-      <input type="text" class="form-control" name="phoneNumber" ngModel [ngModel]="user.phoneNumber" required #phoneno><br><br>
+      <input type="text" class="form-control" name="phoneNumber" ngModel
+             [ngModel]="user.phoneNumber" required #phonenoRef="ngModel" pattern="[0-9]*"
+             minlength="10" maxlength="10"><br><br>
+      <div *ngIf="phonenoRef.invalid && (phonenoRef.dirty || phonenoRef.touched)"
+           class="alert alert-danger">
+        <div *ngIf="phonenoRef.errors.required" style="color: red;">
+          Please phone number
+        </div>
+        <div *ngIf="phonenoRef.errors.pattern">
+          Invalid phone number
+        </div>
+      </div>
     </div>
     <div>
       <label>Security Question</label>

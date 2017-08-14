@@ -13,7 +13,7 @@ export class NavigationComponent implements OnInit {
   title = 'Seller Home';
   public user;
   msg: any;
-
+  username:string;
   constructor(private loginService: LoginService, private router: Router) {
   }
 
@@ -24,11 +24,16 @@ export class NavigationComponent implements OnInit {
     }).catch((error) => {
       console.log("Error");
     });
+    this.loginService.username.subscribe(data=>this.username=data);
   }
 
   logout() {
 
-    this.msg = this.loginService.logout();
+    this.loginService.logout().subscribe(data => {
+      this.msg = data
+    }, err => {
+      console.log("Error", err)
+    });
     if (this.msg == true) {
       console.log("Logged out!")
     }
