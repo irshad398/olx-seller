@@ -5,7 +5,6 @@ import {RegisterComponent} from "./registration/register.component";
 import {HomeComponent} from "./home/home.component";
 import {ProductDetailComponent} from "./products/product-detail.component";
 import {AuthGuard} from "./authguard";
-import {ProductListComponent} from "./products/product-list.component";
 import {ProductSearchComponent} from "./products/product-search.component";
 import {MyProductsComponent} from "./products/my-products.component";
 import {MyProductDetailComponent} from "./products/myproduct-detail.component";
@@ -27,10 +26,6 @@ const appRoutes: Routes = [
   {
     path: 'products/detail/:id',
     component: ProductDetailComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: 'home/products',
-    component: ProductListComponent, canActivate: [AuthGuard]
   },
   {
     path: 'home/search',

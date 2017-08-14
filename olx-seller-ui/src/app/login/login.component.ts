@@ -23,7 +23,7 @@ export class LoginComponent {
         this._loginService.username.next(data.seller_name);
           alert("Login Successfull!'");
           //console.log(this._loginService.getUserDetails())
-          this.router.navigate(['/home/products']);
+          this.router.navigate(['/home/search']);
         },
         error => {
           alert("Invalid credentials!! Please enter correct login details");

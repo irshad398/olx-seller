@@ -3,8 +3,6 @@ package com.alacriti.olx_seller.delegate;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
-
 import com.alacriti.olx_seller.bo.impl.ProductBO;
 import com.alacriti.olx_seller.model.vo.ProductVO;
 import com.alacriti.olx_seller.model.vo.SearchProdutVO;
@@ -52,6 +50,25 @@ public class ProductDelegate extends BaseDelegate {
 		}
 	}
 
+	public ArrayList<ProductVO> getProductByCategory(int category_id) {
+		
+		boolean rollBack = false;
+		Connection connection = null;
+		ArrayList<ProductVO> products=null;
+		try {
+			connection = startDBTransaction();
+			setConnection(connection);
+			ProductBO productBO = new ProductBO(getConnection());
+			products=productBO.getProductByCategory(category_id);
+		} catch (Exception e) {
+			System.out.println("Exception in getProductByCategory " + e.getMessage());
+			rollBack = true;
+		} finally {
+			endDBTransaction(connection, rollBack);
+		}
+		return products;
+		
+	}
 
 	public ArrayList<ProductVO> getProducts(SearchProdutVO searchProdutVO) {
 		boolean rollBack = false;
@@ -145,4 +162,5 @@ public class ProductDelegate extends BaseDelegate {
 		}
 		return false;
 	}
+
 }

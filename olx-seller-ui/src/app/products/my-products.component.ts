@@ -14,8 +14,8 @@ export class MyProductsComponent implements OnInit {
   myProducts: Product[];
   private p: number = 1;
   order: string = "title";
-  username:string;
-  msg:boolean;
+  username: string;
+  msg: boolean;
   newProduct = {
     title: '',
     category_id: '',
@@ -25,7 +25,11 @@ export class MyProductsComponent implements OnInit {
     description: '',
   };
 
-  constructor(private _productService: ProductService, private _location: Location, private router: Router,private loginService:LoginService) {
+  constructor(private _productService: ProductService,
+              private location: Location,
+              private router: Router,
+              private loginService: LoginService
+  ) {
   }
 
   ngOnInit() {
@@ -33,7 +37,7 @@ export class MyProductsComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         this.myProducts = data
-        this.loginService.username.subscribe(data=>this.username=data);
+        this.loginService.username.subscribe(data => this.username = data);
       });
 
   }
@@ -55,6 +59,9 @@ export class MyProductsComponent implements OnInit {
       .subscribe(data => {
         if (data.json() == true) {
           alert("Added product!");
+          // this.goBack();
+          this.location.go("/home/search");
+
         }
         else {
           alert("Unable to add the product!");
@@ -72,6 +79,7 @@ export class MyProductsComponent implements OnInit {
         data => {
           if (data.json() == true) {
             alert("Deleted!");
+            this.goBack();
             // this._location.back();
             // this.router.navigate(['/home/my-products'])
           }
@@ -84,6 +92,7 @@ export class MyProductsComponent implements OnInit {
         }
       );
   }
+
   logout() {
 
     this.loginService.logout().subscribe(data => {
@@ -95,5 +104,9 @@ export class MyProductsComponent implements OnInit {
       console.log("Logged out!")
     }
     this.router.navigate(['/login'])
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

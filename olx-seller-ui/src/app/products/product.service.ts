@@ -11,6 +11,7 @@ export class ProductService {
 
   res: any;
   private _getProductsUrl: string = "http://localhost:8080/olx-seller-1/products";
+  private _getProductsByCatUrl: string = "http://localhost:8080/olx-seller-1/products/cat";
   private _myProductsUrl: string = "http://localhost:8080/olx-seller-1/user/products";
 
   constructor(private _http: Http) {
@@ -21,6 +22,12 @@ export class ProductService {
       .map(response => this.products = (response.json()));
 
   }
+  getProductsByCat(catId): Observable<Product[]> {
+    return this._http.get(this._getProductsByCatUrl+'/'+catId)
+      .map(response => this.products = (response.json()));
+
+  }
+
 
   getProduct(id: number): Observable<Product> {
     console.log("product service: ", id);

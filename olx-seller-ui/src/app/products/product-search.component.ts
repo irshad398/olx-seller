@@ -9,6 +9,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import {LoginService} from "../login/login.service";
+import {ProductService} from "./product.service";
 
 @Component({
   selector: 'product-search',
@@ -28,13 +29,23 @@ export class ProductSearchComponent implements OnInit {
   username: string;
 
   constructor(private _productSearchService: ProductSearchService,
-              private router: Router, private loginService: LoginService) {
+              private router: Router, private loginService: LoginService,private _productService:ProductService) {
   }
 
   ngOnInit(): void {
     this.loginService.username.subscribe(data => this.username = data);
+    this._productService.getProducts()
+      .subscribe(data=>{
+        // console.log(data);
+        this.returnedProducts=data});
   }
-
+  getProductsByCat(catId:number){
+    console.log("Cat Id:",catId);
+    this._productService.getProductsByCat(catId)
+      .subscribe(data=>{
+        // console.log(data);
+        this.returnedProducts=data});
+  }
   searchProduct(searchData) {
     console.log(searchData)
     this._productSearchService.searchProduct(searchData)

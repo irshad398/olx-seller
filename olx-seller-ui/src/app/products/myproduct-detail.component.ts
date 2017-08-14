@@ -41,6 +41,7 @@ export class MyProductDetailComponent {
     this._productService.updateProduct(myProduct)
       .subscribe(data => {
         alert("updated! ");
+        this.goBack();
       });
   }
 

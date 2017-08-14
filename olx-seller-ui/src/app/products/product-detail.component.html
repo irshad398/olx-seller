@@ -1,18 +1,8 @@
-<!--
-<hr>
-<h4>{{product.title}} Detail</h4>
-<div>Id: {{product.id}}</div>
-<div>Name:
-  <input [(ngModel)]="product.price">
-</div>
-<div>Category<input [(ngModel)]="product.category_name></div>
-
--->
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Olx-Seller</a>
+      <a class="navbar-brand" href="/home">Olx-Seller</a>
     </div>
     <ul class="nav navbar-nav">
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
@@ -26,10 +16,6 @@
 
 <div class="tabbable">
   <ul class="nav nav-tabs">
-    <li><a routerLink="/home/products" routerLinkActive="active" data-toggle="tab">
-      All Products
-    </a>
-    </li>
     <li><a routerLink="/home/search" routerLinkActive="active" data-toggle="tab">
       Search Products
     </a>
@@ -69,7 +55,7 @@
     </tr>
     <tr>
       <td>Posted on</td>
-      <td>{{product.postedOn | date }}</td>
+      <td>{{product.postedOn | date:'medium' }}</td>
     </tr>
     <tr>
       <td>Seller details</td>

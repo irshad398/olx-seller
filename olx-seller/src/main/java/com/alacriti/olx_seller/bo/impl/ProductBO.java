@@ -39,7 +39,20 @@ public class ProductBO extends BaseBO {
 			throw new BOException();
 		}
 	}
+	
+	public ArrayList<ProductVO> getProductByCategory(int category_id)throws DAOException, BOException {
+		ArrayList<ProductVO> products = null;
+		try {
+			ProductDAO productDAO = new ProductDAO(getConnection());
+			products = productDAO.getProductByCategory(category_id);
 
+		} catch (Exception e) {
+			System.out.println("Exception in getProductByCategory in BO "
+					+ e.getMessage());
+			throw new BOException();
+		}
+		return products;
+	}
 	public ArrayList<ProductVO> getProducts(SearchProdutVO searchProdutVO)
 			throws DAOException, BOException {
 
@@ -106,4 +119,6 @@ public class ProductBO extends BaseBO {
 			throw new BOException();
 		}
 	}
+
+	
 }

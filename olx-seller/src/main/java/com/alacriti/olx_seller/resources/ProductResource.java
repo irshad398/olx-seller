@@ -40,18 +40,16 @@ public class ProductResource {
 		return Response.status(200).entity(productVO).build();
 		
 	}
-	/*@POST
-	@Path("/search")
-	public Response getProdctsBySearch(
-			@QueryParam("title") String title,
-			@QueryParam("catId") int catId
-			){
-		System.out.println(title+": "+catId);
-		ArrayList<ProductVO> products=null;
+	@GET
+	@Path("cat/{category_id}")
+	public Response getProductByCategory(@PathParam("category_id") int category_id, @Context HttpServletRequest request){
+		ArrayList<ProductVO> products;
 		ProductDelegate productDelegate = new ProductDelegate();
-		products=productDelegate.getProducts(title,catId);
+		products=productDelegate.getProductByCategory(category_id);
 		return Response.status(200).entity(products).build();
-	}*/
+		
+	}
+	
 	@POST
 	@Path("/search")
 	@Consumes(MediaType.APPLICATION_JSON)

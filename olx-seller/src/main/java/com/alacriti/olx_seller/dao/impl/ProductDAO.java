@@ -120,6 +120,55 @@ public class ProductDAO extends BaseDAO {
 		}
 	}
 
+	public ArrayList<ProductVO> getProductByCategory(int category_id)throws DAOException {
+		ArrayList<ProductVO> products = new ArrayList<ProductVO>();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sqlCmd = "sql cmd";
+		try {
+			stmt = getPreparedStatementGetProductByCategory(getConnection(), sqlCmd);
+			System.out.println("reached here********");
+			stmt.setInt(1, category_id);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				products.add(new ProductVO(rs.getInt(1), rs.getString(2), rs
+						.getString(3), rs.getFloat(4), rs.getString(5), rs
+						.getString(6), rs.getString(7), rs.getString(8), rs
+						.getString(9), rs.getLong(10), rs.getString(11)));
+
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException("SQLException in getProducts():", e);
+		} finally {
+			close(stmt, rs);
+		}
+		return products;
+	}
+	
+	private PreparedStatement getPreparedStatementGetProductByCategory(
+			Connection connection, String sqlCmd) throws SQLException{
+		// log.debugPrintCurrentMethodName();
+
+		System.out.println("getPreparedStatementGetProducts: " + sqlCmd);
+		try {
+
+			return connection
+					.prepareStatement("SELECT pt.product_id,pt.title,ct.category_name,pt.price,"
+							+ "pt.model,pt.old_or_new,pt.description,"
+							+ "pt.posted_on,st.seller_name,st.phone_no,st.email"
+							+ " FROM irshadk_olx_seller_details as st "
+							+ " INNER JOIN  irshadk_olx_product_details as pt"
+							+ " ON pt.seller_id = st.seller_id"
+							+ " INNER JOIN irshadk_olx_product_categories as ct"
+							+ " ON pt.category_id = ct.category_id AND pt.category_id = ?");
+		} catch (SQLException e) {
+			System.out.println("Exception in getPreparedStatementGetProductByCategory "
+					+ e.getMessage());
+			throw e;
+		}
+	}
+
 	public ArrayList<ProductVO> getProducts(SearchProdutVO searchProdutVO)
 			throws DAOException {
 
@@ -386,5 +435,7 @@ public class ProductDAO extends BaseDAO {
 
 	
 	}
+
+	
 
 }
