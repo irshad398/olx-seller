@@ -13,7 +13,6 @@ import {LoginService} from "../login/login.service";
 export class MyProductsComponent implements OnInit {
   myProducts: Product[];
   private p: number = 1;
-  order: string = "title";
   username: string;
   msg: boolean;
   newProduct = {

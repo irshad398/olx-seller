@@ -27,7 +27,11 @@ export class ProductService {
       .map(response => this.products = (response.json()));
 
   }
+  getProductsOrderBy(orderById): Observable<Product[]> {
+    return this._http.get(this._getProductsUrl+'/'+orderById)
+      .map(response => this.products = (response.json()));
 
+  }
 
   getProduct(id: number): Observable<Product> {
     console.log("product service: ", id);

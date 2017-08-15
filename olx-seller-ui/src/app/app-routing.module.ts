@@ -41,23 +41,10 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    component: HomeComponent
+    component: LoginComponent
 
   },
 
-  /*,
-  {
-    path: 'admin',
-    loadChildren: 'app/admin/admin.module#AdminModule',
-    canLoad: [AuthGuard]
-  },
-  {
-    path: 'crisis-center',
-    loadChildren: 'app/crisis-center/crisis-center.module#CrisisCenterModule',
-    data: { preload: true }
-  },
-  { path: '',   redirectTo: '/heroes', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }*/
 ];
 
 

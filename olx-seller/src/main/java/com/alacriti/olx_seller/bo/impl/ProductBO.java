@@ -77,7 +77,7 @@ public class ProductBO extends BaseBO {
 			products = productDAO.getSellerProducts(seller_id);
 
 		} catch (Exception e) {
-			System.out.println("Exception in retrieveProducts "
+			System.out.println("Exception in retrieve getSellerProducts "
 					+ e.getMessage());
 			throw new BOException();
 		}

@@ -18,7 +18,8 @@ import {ProductService} from "./product.service";
 })
 export class ProductSearchComponent implements OnInit {
   private p: number = 1;
-  order: string = "title";
+  order: string = "postedOn";
+  mode : string = "reverse"
   searchInput = {
     title: '',
     catId: ''
@@ -42,6 +43,13 @@ export class ProductSearchComponent implements OnInit {
   getProductsByCat(catId:number){
     console.log("Cat Id:",catId);
     this._productService.getProductsByCat(catId)
+      .subscribe(data=>{
+        // console.log(data);
+        this.returnedProducts=data});
+  }
+  getProductsOrderBy(orderById:number){
+    console.log("orderById: ",orderById);
+    this._productService.getProductsOrderBy(orderById)
       .subscribe(data=>{
         // console.log(data);
         this.returnedProducts=data});

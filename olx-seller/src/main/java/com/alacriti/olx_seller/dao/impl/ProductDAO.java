@@ -59,7 +59,7 @@ public class ProductDAO extends BaseDAO {
 							+ " INNER JOIN  irshadk_olx_product_details as pt"
 							+ " ON pt.seller_id = st.seller_id"
 							+ " INNER JOIN irshadk_olx_product_categories as ct"
-							+ " ON pt.category_id = ct.category_id");
+							+ " ON pt.category_id = ct.category_id ORDER BY pt.posted_on DESC" );
 		} catch (SQLException e) {
 			System.out.println("Exception in getPreparedStatementGetProducts "
 					+ e.getMessage());
@@ -161,7 +161,7 @@ public class ProductDAO extends BaseDAO {
 							+ " INNER JOIN  irshadk_olx_product_details as pt"
 							+ " ON pt.seller_id = st.seller_id"
 							+ " INNER JOIN irshadk_olx_product_categories as ct"
-							+ " ON pt.category_id = ct.category_id AND pt.category_id = ?");
+							+ " ON pt.category_id = ct.category_id AND pt.category_id = ? ORDER BY pt.posted_on DESC");
 		} catch (SQLException e) {
 			System.out.println("Exception in getPreparedStatementGetProductByCategory "
 					+ e.getMessage());
@@ -219,7 +219,7 @@ public class ProductDAO extends BaseDAO {
 							+ " ON pt.seller_id = st.seller_id"
 							+ " INNER JOIN irshadk_olx_product_categories as ct"
 							+ " ON pt.category_id = ct.category_id"
-							+ " WHERE ct.category_id = ? AND pt.title LIKE ?");
+							+ " WHERE ct.category_id = ? AND pt.title LIKE ? ORDER BY pt.posted_on DESC");
 
 		} catch (SQLException e) {
 			System.out
@@ -263,7 +263,7 @@ public class ProductDAO extends BaseDAO {
 		// log.debugPrintCurrentMethodName();
 
 		System.out
-				.println("getPreparedStatementGetProductsBySearch: " + sqlCmd);
+				.println("getPreparedStatementGetSellerProducts: " + sqlCmd);
 		try {
 
 			return connection
@@ -275,8 +275,7 @@ public class ProductDAO extends BaseDAO {
 							+ " ON pt.seller_id = st.seller_id"
 							+ " INNER JOIN irshadk_olx_product_categories as ct"
 							+ " ON pt.category_id = ct.category_id"
-							+ " WHERE pt.category_id = ct.category_id"
-							+ " AND st.seller_id = ?");
+							+ " WHERE st.seller_id = ? ORDER BY pt.posted_on DESC");
 
 		} catch (SQLException e) {
 			System.out

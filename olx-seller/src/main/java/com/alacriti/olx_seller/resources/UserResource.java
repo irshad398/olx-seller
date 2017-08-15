@@ -51,6 +51,22 @@ public class UserResource {
 		return auth.destroySession(request);
 
 	}
+	@GET
+	@Path("check")
+	@Produces("application/json")
+	public Response checkSession(@Context HttpServletRequest request) {
+		AuthenticationUtil auth = new AuthenticationUtil();
+		HttpSession session = auth.getSession(request);
+		if(session!=null){
+			UserLoginVO userLoginVo = new UserLoginVO();
+			userLoginVo.setEmail((String)session.getAttribute("email"));
+			userLoginVo.setSeller_id((Integer)session.getAttribute("seller_id"));
+			userLoginVo.setSeller_name((String)session.getAttribute("seller_name"));
+			return Response.status(200).entity(userLoginVo).build();
+		}
+		return Response.status(401).build();
+
+	}
 
 	@POST
 	@Path("register")
@@ -68,14 +84,13 @@ public class UserResource {
 	public Response getSellerProducts(@Context HttpServletRequest request) {
 		System.out.println("/user/products hitted");
 		int seller_id;
-		AuthenticationUtil auth = new AuthenticationUtil();
 		ProductDelegate productDelegate = new ProductDelegate();
 		ArrayList<ProductVO> products = null;
+		AuthenticationUtil auth = new AuthenticationUtil();
 		HttpSession session = auth.getSession(request);
-		System.out.println(session);
+		System.out.println(session.getId());
 		if (session != null) {
 			seller_id = (Integer) session.getAttribute("seller_id");
-			System.out.println("123 " + seller_id);
 			products = productDelegate.getSellerProducts(seller_id);
 			return Response.status(200).entity(products).build();
 		}

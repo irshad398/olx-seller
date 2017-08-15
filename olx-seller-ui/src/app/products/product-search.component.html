@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/home">Olx-Seller</a>
+      <a class="navbar-brand" href="/home" style="color: red">Olx-Seller</a>
     </div>
     <ul class="nav navbar-nav">
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
@@ -47,15 +47,22 @@
 </div>
 <br/>
 
-<div class="container" style="margin-top: 2%;width: 50%">
-  <div class="radio" style="text-align: right">
-    Sort By<br/>
-    <input type="radio" [(ngModel)]="order" name="sort" value="price">Price<br>
-    <input type="radio" [(ngModel)]="order" name="sort" value="postedOn">Post
+<div class="container" style="width: 50%">
+  <div style="text-align: right">
+    Sort By:
+    <select [(ngModel)]="order" name="sort">
+      <option value="price">Price</option>
+      <option value="postedOn">Post</option>
+    </select>
+    <select [(ngModel)]="mode" name="mode">
+      <option value="reverse">High --> Low</option>
+      <option value="">Low --> High</option>
+    </select>
+
   </div>
   <ul class="list-group" id="products">
     <li class="list-group-item" id="items"
-        *ngFor="let product of returnedProducts |orderBy:order | paginate: { itemsPerPage: 3, currentPage: p }">
+        *ngFor="let product of returnedProducts |orderBy:order :mode| paginate: { itemsPerPage: 3, currentPage: p }">
       <h3>{{product.title}}</h3>
       <h3>&#8377; {{product.price}}</h3>
       <h4>Model: {{product.model}}</h4>

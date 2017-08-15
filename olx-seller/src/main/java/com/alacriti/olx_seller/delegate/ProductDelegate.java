@@ -98,7 +98,7 @@ public class ProductDelegate extends BaseDelegate {
 			ProductBO productBO = new ProductBO(getConnection());
 			products=productBO.getSellerProducts(seller_id);
 		} catch (Exception e) {
-			System.out.println("Exception in getProducts " + e.getMessage());
+			System.out.println("Exception in getSellerProducts " + e.getMessage());
 			rollBack = true;
 		} finally {
 			endDBTransaction(connection, rollBack);
