@@ -3,11 +3,12 @@ import {LoginComponent} from "./login/login.component";
 import {NgModule} from "@angular/core";
 import {RegisterComponent} from "./registration/register.component";
 import {HomeComponent} from "./home/home.component";
-import {ProductDetailComponent} from "./products/product-detail.component";
+import {ProductDetailComponent} from "./products/product-detail/product-detail.component";
 import {AuthGuard} from "./authguard";
-import {ProductSearchComponent} from "./products/product-search.component";
-import {MyProductsComponent} from "./products/my-products.component";
-import {MyProductDetailComponent} from "./products/myproduct-detail.component";
+import {ProductSearchComponent} from "./products/products-search/product-search.component";
+import {MyProductsComponent} from "./products/my-products/my-products.component";
+import {MyProductDetailComponent} from "./products/my-products/myproduct-detail.component";
+
 
 const appRoutes: Routes = [
   {

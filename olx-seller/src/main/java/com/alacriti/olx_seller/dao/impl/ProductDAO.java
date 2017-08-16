@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.alacriti.olx_seller.dao.IProductDAO;
 import com.alacriti.olx_seller.model.vo.ProductVO;
 import com.alacriti.olx_seller.model.vo.SearchProdutVO;
 
-public class ProductDAO extends BaseDAO {
+public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	public ProductDAO(Connection connection) {
 		super(connection);
@@ -59,7 +60,7 @@ public class ProductDAO extends BaseDAO {
 							+ " INNER JOIN  irshadk_olx_product_details as pt"
 							+ " ON pt.seller_id = st.seller_id"
 							+ " INNER JOIN irshadk_olx_product_categories as ct"
-							+ " ON pt.category_id = ct.category_id ORDER BY pt.posted_on DESC" );
+							+ " ON pt.category_id = ct.category_id ORDER BY pt.posted_on DESC");
 		} catch (SQLException e) {
 			System.out.println("Exception in getPreparedStatementGetProducts "
 					+ e.getMessage());
@@ -120,13 +121,15 @@ public class ProductDAO extends BaseDAO {
 		}
 	}
 
-	public ArrayList<ProductVO> getProductByCategory(int category_id)throws DAOException {
+	public ArrayList<ProductVO> getProductByCategory(int category_id)
+			throws DAOException {
 		ArrayList<ProductVO> products = new ArrayList<ProductVO>();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCmd = "sql cmd";
 		try {
-			stmt = getPreparedStatementGetProductByCategory(getConnection(), sqlCmd);
+			stmt = getPreparedStatementGetProductByCategory(getConnection(),
+					sqlCmd);
 			System.out.println("reached here********");
 			stmt.setInt(1, category_id);
 			rs = stmt.executeQuery();
@@ -145,9 +148,9 @@ public class ProductDAO extends BaseDAO {
 		}
 		return products;
 	}
-	
+
 	private PreparedStatement getPreparedStatementGetProductByCategory(
-			Connection connection, String sqlCmd) throws SQLException{
+			Connection connection, String sqlCmd) throws SQLException {
 		// log.debugPrintCurrentMethodName();
 
 		System.out.println("getPreparedStatementGetProducts: " + sqlCmd);
@@ -163,8 +166,9 @@ public class ProductDAO extends BaseDAO {
 							+ " INNER JOIN irshadk_olx_product_categories as ct"
 							+ " ON pt.category_id = ct.category_id AND pt.category_id = ? ORDER BY pt.posted_on DESC");
 		} catch (SQLException e) {
-			System.out.println("Exception in getPreparedStatementGetProductByCategory "
-					+ e.getMessage());
+			System.out
+					.println("Exception in getPreparedStatementGetProductByCategory "
+							+ e.getMessage());
 			throw e;
 		}
 	}
@@ -175,13 +179,30 @@ public class ProductDAO extends BaseDAO {
 		ArrayList<ProductVO> products = new ArrayList<ProductVO>();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sqlCmd = "sql cmd";
+		String sqlCmd = "SELECT pt.product_id,pt.title,ct.category_name,pt.price,"
+				+ "pt.model,pt.old_or_new,pt.description,"
+				+ "pt.posted_on,st.seller_name,st.phone_no,st.email"
+				+ " FROM irshadk_olx_seller_details as st "
+				+ " INNER JOIN  irshadk_olx_product_details as pt"
+				+ " ON pt.seller_id = st.seller_id"
+				+ " INNER JOIN irshadk_olx_product_categories as ct"
+				+ " ON pt.category_id = ct.category_id" + " WHERE ";
 		try {
-			stmt = getPreparedStatementGetProductsBySearch(getConnection(),
-					sqlCmd);
+			if (searchProdutVO.getCatId() == 0) {
+				sqlCmd += "pt.title LIKE ? OR pt.description LIKE ? ORDER BY pt.posted_on DESC";
+				stmt = getPreparedStatementGetProductsBySearch(getConnection(),
+						sqlCmd);
+				stmt.setString(1, "%" + searchProdutVO.getTitle() + "%");
+				stmt.setString(2, "%" + searchProdutVO.getTitle() + "%");
+			} else {
+				sqlCmd += "ct.category_id = ? AND pt.title LIKE ? OR pt.description LIKE ? ORDER BY pt.posted_on DESC";
+				stmt = getPreparedStatementGetProductsBySearch(getConnection(),
+						sqlCmd);
+				stmt.setInt(1, searchProdutVO.getCatId());
+				stmt.setString(2, "%" + searchProdutVO.getTitle() + "%");
+				stmt.setString(3, "%" + searchProdutVO.getTitle() + "%");
+			}
 			System.out.println("reached here********");
-			stmt.setInt(1, searchProdutVO.getCatId());
-			stmt.setString(2, "%" + searchProdutVO.getTitle() + "%");
 			System.out.println(searchProdutVO.getTitle() + ":I am here");
 			rs = stmt.executeQuery();
 			System.out.println(searchProdutVO.getCatId() + ":Hey...I am here");
@@ -192,7 +213,6 @@ public class ProductDAO extends BaseDAO {
 						.getString(9), rs.getLong(10), rs.getString(11)));
 
 			}
-			// System.out.println(products.iterator().next().getTitle());
 
 		} catch (SQLException e) {
 			throw new DAOException("SQLException in getProducts():", e);
@@ -210,17 +230,20 @@ public class ProductDAO extends BaseDAO {
 				.println("getPreparedStatementGetProductsBySearch: " + sqlCmd);
 		try {
 
-			return connection
-					.prepareStatement("SELECT pt.product_id,pt.title,ct.category_name,pt.price,"
-							+ "pt.model,pt.old_or_new,pt.description,"
-							+ "pt.posted_on,st.seller_name,st.phone_no,st.email"
-							+ " FROM irshadk_olx_seller_details as st "
-							+ " INNER JOIN  irshadk_olx_product_details as pt"
-							+ " ON pt.seller_id = st.seller_id"
-							+ " INNER JOIN irshadk_olx_product_categories as ct"
-							+ " ON pt.category_id = ct.category_id"
-							+ " WHERE ct.category_id = ? AND pt.title LIKE ? ORDER BY pt.posted_on DESC");
-
+			/*
+			 * return connection .prepareStatement(
+			 * "SELECT pt.product_id,pt.title,ct.category_name,pt.price," +
+			 * "pt.model,pt.old_or_new,pt.description," +
+			 * "pt.posted_on,st.seller_name,st.phone_no,st.email" +
+			 * " FROM irshadk_olx_seller_details as st " +
+			 * " INNER JOIN  irshadk_olx_product_details as pt" +
+			 * " ON pt.seller_id = st.seller_id" +
+			 * " INNER JOIN irshadk_olx_product_categories as ct" +
+			 * " ON pt.category_id = ct.category_id" +
+			 * " WHERE ct.category_id = ? AND pt.title LIKE ? ORDER BY pt.posted_on DESC"
+			 * );
+			 */
+			return connection.prepareStatement(sqlCmd);
 		} catch (SQLException e) {
 			System.out
 					.println("Exception in getPreparedStatementGetProductsBySearch "
@@ -262,8 +285,7 @@ public class ProductDAO extends BaseDAO {
 			Connection connection, String sqlCmd) throws SQLException {
 		// log.debugPrintCurrentMethodName();
 
-		System.out
-				.println("getPreparedStatementGetSellerProducts: " + sqlCmd);
+		System.out.println("getPreparedStatementGetSellerProducts: " + sqlCmd);
 		try {
 
 			return connection
@@ -304,8 +326,7 @@ public class ProductDAO extends BaseDAO {
 			if (count > 0) {
 				System.out.println("Product Added successfully");
 				return true;
-			}
-			else{
+			} else {
 				return false;
 			}
 
@@ -390,8 +411,9 @@ public class ProductDAO extends BaseDAO {
 			stmt = getPreparedStatementUpdateProduct(getConnection(), sqlCmd);
 			System.out.println("reached here********");
 			stmt.setString(1, productVO.getTitle());
-			// stmt.setInt(2,seller_id); SET title = ?,category_id = ?, description = ? , model = ?, price = ?"
-//			+ " where product_id = ? AND seller_id = ?");
+			// stmt.setInt(2,seller_id); SET title = ?,category_id = ?,
+			// description = ? , model = ?, price = ?"
+			// + " where product_id = ? AND seller_id = ?");
 			stmt.setString(2, productVO.getDescription());
 			stmt.setString(3, productVO.getModel());
 			stmt.setFloat(4, productVO.getPrice());
@@ -415,8 +437,7 @@ public class ProductDAO extends BaseDAO {
 	}
 
 	private PreparedStatement getPreparedStatementUpdateProduct(
-			Connection connection, String sqlCmd) throws SQLException{
-
+			Connection connection, String sqlCmd) throws SQLException {
 
 		System.out.println("getPreparedStatementUpdateProduct: " + sqlCmd);
 		try {
@@ -427,14 +448,60 @@ public class ProductDAO extends BaseDAO {
 							+ " where product_id = ? AND seller_id = ?");
 
 		} catch (SQLException e) {
-			System.out.println("Exception in getPreparedStatementDeleteProduct "
-					+ e.getMessage());
+			System.out
+					.println("Exception in getPreparedStatementDeleteProduct "
+							+ e.getMessage());
 			throw e;
 		}
 
-	
 	}
 
-	
+	public ArrayList<ProductVO> getRecentProducts() throws DAOException {
+		ArrayList<ProductVO> products = new ArrayList<ProductVO>();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sqlCmd = "sql cmd";
+		try {
+			stmt = getPreparedStatementGetRecentProducts(getConnection(), sqlCmd);
+			System.out.println("reached here********");
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				products.add(new ProductVO(rs.getInt(1), rs.getString(2), rs
+						.getString(3), rs.getFloat(4), rs.getString(5), rs
+						.getString(6), rs.getString(7), rs.getString(8), rs
+						.getString(9), rs.getLong(10), rs.getString(11)));
+
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException("SQLException in getRecentProducts():", e);
+		} finally {
+			close(stmt, rs);
+		}
+		return products;
+	}
+
+	private PreparedStatement getPreparedStatementGetRecentProducts(
+			Connection connection, String sqlCmd) throws SQLException{
+		// log.debugPrintCurrentMethodName();
+
+		System.out.println("getPreparedStatementRecentGetProducts: " + sqlCmd);
+		try {
+
+			return connection
+					.prepareStatement("SELECT pt.product_id,pt.title,ct.category_name,pt.price,"
+							+ "pt.model,pt.old_or_new,pt.description,"
+							+ "pt.posted_on,st.seller_name,st.phone_no,st.email"
+							+ " FROM irshadk_olx_seller_details as st "
+							+ " INNER JOIN  irshadk_olx_product_details as pt"
+							+ " ON pt.seller_id = st.seller_id"
+							+ " INNER JOIN irshadk_olx_product_categories as ct"
+							+ " ON pt.category_id = ct.category_id ORDER BY pt.posted_on DESC LIMIT 4");
+		} catch (SQLException e) {
+			System.out.println("Exception in getPreparedStatementGetProducts "
+					+ e.getMessage());
+			throw e;
+		}
+	}
 
 }

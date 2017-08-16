@@ -163,4 +163,24 @@ public class ProductDelegate extends BaseDelegate {
 		return false;
 	}
 
+	public ArrayList<ProductVO> getRecentProducts() {
+		
+		boolean rollBack = false;
+		Connection connection = null;
+		ArrayList<ProductVO> products=null;
+		try {
+			connection = startDBTransaction();
+			setConnection(connection);
+			ProductBO productBO = new ProductBO(getConnection());
+			products=productBO.getRecentProducts();
+		} catch (Exception e) {
+			System.out.println("Exception in getRecentProducts " + e.getMessage());
+			rollBack = true;
+		} finally {
+			endDBTransaction(connection, rollBack);
+		}
+		return products;
+		
+	}
+
 }

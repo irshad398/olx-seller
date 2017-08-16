@@ -4,18 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.Context;
-
+import com.alacriti.olx_seller.dao.IUserDAO;
 import com.alacriti.olx_seller.model.vo.UserLoginVO;
 import com.alacriti.olx_seller.model.vo.UserRegisterVO;
-import com.alacriti.olx_seller.resources.UserResource;
 
-public class UserDAO extends BaseDAO{
+public class UserDAO extends BaseDAO implements IUserDAO{
 //	private static final AppLogger log = LogUtil.getLogger(UserDAO.class);
 	public UserDAO(Connection conn) {
 		super(conn);
@@ -74,7 +68,7 @@ public class UserDAO extends BaseDAO{
 			throw e;
 		}
 	}
-	public void registerUser(UserRegisterVO userRegisterVO) throws DAOException{
+	public boolean registerUser(UserRegisterVO userRegisterVO) throws DAOException{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
@@ -93,9 +87,13 @@ public class UserDAO extends BaseDAO{
 			if(count>0){
 				//userRegisterVO.setRoleCreate(true);
 				System.out.println("User inserted!");
+				return true;
+			}
+			else{
+				System.out.println("User not inserted...");
+				return false;
 			}
 		} catch (SQLException e) {
-//			System.out.println("SQLException in registerUser " + e.getMessage());
 			throw new DAOException("SQLException in createUserRole():", e);
 		} finally {
 			close(stmt, rs);
@@ -111,41 +109,5 @@ public class UserDAO extends BaseDAO{
 			throw e;
 		}
 	}
-	
-	
-	/*public void createUserRole(UserRoleVO userRoleVO) throws DAOException{
-		log.debugPrintCurrentMethodName();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		try {
-			String sqlCmd = "sql command";
-			
-			stmt =getPreparedStatementCreateUserRole(getConnection(), sqlCmd);
-			stmt.setInt(1,userRoleVO.getRoleTypeId());
-			stmt.setString(2, userRoleVO.getRoleName());
-			stmt.setString(3, userRoleVO.getRoleDesc());
-			log.logDebug("reached here********");
-			int count= stmt.executeUpdate();
-			if(count>0){
-				userRoleVO.setRoleCreate(true);
-			}
-		} catch (SQLException e) {
-			log.logError(
-					"SQLException in createUserRole " + e.getMessage(), e);
-			throw new DAOException("SQLException in createUserRole():", e);
-		} finally {
-			close(stmt, rs);
-		}
-	}
-	
-	public PreparedStatement getPreparedStatementCreateUserRole(Connection connection, String sqlCmd) throws SQLException{
-		try {
-			return connection.prepareStatement("insert into role_type_tbl values(?,?,?)");
-		} catch (SQLException e) {
-			log.logError("Exception in getPreparedStatementCreateUser " + e.getMessage(), e);
-			throw e;
-		}
-	}*/
 
 }

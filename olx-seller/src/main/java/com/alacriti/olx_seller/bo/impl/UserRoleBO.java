@@ -2,13 +2,14 @@ package com.alacriti.olx_seller.bo.impl;
 
 import java.sql.Connection;
 
+import com.alacriti.olx_seller.bo.IUserRoleBO;
 import com.alacriti.olx_seller.dao.impl.DAOException;
 import com.alacriti.olx_seller.dao.impl.UserDAO;
 import com.alacriti.olx_seller.model.vo.UserLoginVO;
 import com.alacriti.olx_seller.model.vo.UserRegisterVO;
 
 
-public class UserRoleBO extends BaseBO {
+public class UserRoleBO extends BaseBO implements IUserRoleBO{
 	
 	public UserRoleBO(Connection connection) {
 		super(connection);
@@ -22,21 +23,21 @@ public class UserRoleBO extends BaseBO {
 			isValidUser = userDAO.checkUserLogin(userLoginVO);
 			
 		} catch (Exception e) {
-			System.out.println("Exception in retrieveMessage " + e.getMessage());
+			System.out.println("Exception in checkUserLogin " + e.getMessage());
 			throw new BOException();
 		}
 		return isValidUser;
 	}
 
 
-	public void registerUser(UserRegisterVO userRegisterVO) throws DAOException, BOException {
+	public boolean registerUser(UserRegisterVO userRegisterVO) throws DAOException, BOException {
 	   
 		try{
 			UserDAO userDAO = new UserDAO(getConnection());
-			userDAO.registerUser(userRegisterVO);
+			return userDAO.registerUser(userRegisterVO);
 			
 		}catch(Exception e){
-			System.out.println("Exception in retrieveMessage " + e.getMessage());
+			System.out.println("Exception in registerUser " + e.getMessage());
 			throw new BOException();
 			
 		}
@@ -44,17 +45,4 @@ public class UserRoleBO extends BaseBO {
 		
 	}
 	
-	
-	/*public void createUserRole(UserRoleVO userVO) throws DAOException, BOException{
-		
-		try {
-			UserDAO userDAO =   new UserDAO(getConnection());
-			userDAO.createUserRole(userVO);
-			
-		} catch (Exception e) {
-			System.out.println("Exception in retrieveMessage " + e.getMessage());
-			throw new BOException();
-		}
-	}*/
-
 }

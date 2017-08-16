@@ -30,7 +30,6 @@ export class LoginService {
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-
     return this._http.post(this._loginUrl, loginData, {headers: headers, withCredentials: true})
       .map((res: Response) => this.userDetails = res.json());
   }
@@ -45,7 +44,7 @@ export class LoginService {
   }
 
   isValidUser() {
-    if (this.userDetails != undefined) {
+    if (this.userDetails!=undefined) {
       return true;
     }
     else {

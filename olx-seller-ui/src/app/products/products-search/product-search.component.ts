@@ -1,6 +1,6 @@
 import {ProductSearchService} from "./product-search.service";
 import {Component, OnInit} from "@angular/core";
-import {Product} from "./product";
+import {Product} from "../product";
 import {Router} from "@angular/router";
 
 import 'rxjs/add/observable/of';
@@ -8,8 +8,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
-import {LoginService} from "../login/login.service";
-import {ProductService} from "./product.service";
+import {LoginService} from "../../login/login.service";
+import {ProductService} from "../product.service";
+import {Category} from "../category";
 
 @Component({
   selector: 'product-search',
@@ -25,11 +26,11 @@ export class ProductSearchComponent implements OnInit {
     catId: ''
   };
   returnedProducts: Product[];
+  categories:Category[];
   selectedProduct: Product;
   msg: boolean;
   username: string;
-
-  constructor(private _productSearchService: ProductSearchService,
+    constructor(private _productSearchService: ProductSearchService,
               private router: Router, private loginService: LoginService,private _productService:ProductService) {
   }
 
@@ -38,7 +39,13 @@ export class ProductSearchComponent implements OnInit {
     this._productService.getProducts()
       .subscribe(data=>{
         // console.log(data);
-        this.returnedProducts=data});
+        this.returnedProducts=data
+      });
+    this._productService.getCategories()
+      .subscribe(data=>{
+        console.log(data);
+        this.categories=data;
+      });
   }
   getProductsByCat(catId:number){
     console.log("Cat Id:",catId);
@@ -80,6 +87,7 @@ export class ProductSearchComponent implements OnInit {
 
     this.loginService.logout().subscribe(data => {
       this.msg = data
+      localStorage.clear();
     }, err => {
       console.log("Error", err)
     });

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/home" style="color: red">Olx-Seller</a>
+      <a class="navbar-brand"  style="color: red;font-family: Ubuntu">Sell<i>it</i>.com</a>
     </div>
     <ul class="nav navbar-nav">
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
@@ -31,14 +31,10 @@
       <input class="form-control input-lg" type="text" name="title" [ngModel]="searchInput.title" ngModel required
              placeholder="Search Products...">
 
-      <select class=" input-lg" id="soflow" #catId name="catId" [ngModel]="searchInput.catId"
-              (change)="getProductsByCat(catId.value)" ngModel required>
-        <option value="1">Cars</option>
-        <option value="2">Mobiles</option>
-        <option value="3">Bikes</option>
-        <option value="4">Books</option>
+      <select class="input-lg"  #catId name="catId"  [ngModel]="searchInput.catId"
+               (change)="getProductsByCat(catId.value)" ngModel >
+        <option *ngFor="let category of categories" [value]='category.category_id' >{{category.category_name}}</option>
       </select>
-
       <button class="btn btn-default btn-lg" type="submit" [disabled]="!searchForm.form.valid">
         <i class="glyphicon glyphicon-search"></i>Search
       </button>

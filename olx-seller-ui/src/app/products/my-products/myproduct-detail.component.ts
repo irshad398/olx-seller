@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 
-import {Product} from "./product";
-import {ProductService} from "./product.service";
+import {Product} from "../product";
+import {ProductService} from "../product.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Location} from '@angular/common';
-import {LoginService} from "../login/login.service";
+import {LoginService} from "../../login/login.service";
 
 @Component({
   selector: 'myproduct-detail',

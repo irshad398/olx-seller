@@ -1,8 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {Observable} from "rxjs/Observable";
 import {Product} from "../products/product";
 import {ProductService} from "../products/product.service";
-import {LoginService} from "../login/login.service";
+import {Router} from "@angular/router";
 
 @Component({
   // selector:'seller-home',
@@ -11,7 +10,21 @@ import {LoginService} from "../login/login.service";
 
 })
 export class HomeComponent implements OnInit {
+  recentProducts: Product[];
+
+  constructor(private _productService: ProductService,private router:Router) {
+  }
+
   ngOnInit() {
-    console.log('hai');
+    this._productService.getRecentProducts()
+      .subscribe(data => {
+        console.log("recent products:",data);
+        this.recentProducts = data
+      });
+  }
+  gotoDetail(selectedProductId) {
+
+    console.log(selectedProductId);
+    this.router.navigate(['products/detail/' + selectedProductId, {id: selectedProductId}]);
   }
 }

@@ -3,16 +3,21 @@ import {Injectable} from '@angular/core';
 import {Product} from "./product";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
+import {Category} from "./category";
+import {parseHttpResponse} from "selenium-webdriver/http";
 
 @Injectable()
 export class ProductService {
   private products: Product[];
   private myProducts: Product[];
+  private categories:Category[];
 
   res: any;
   private _getProductsUrl: string = "http://localhost:8080/olx-seller-1/products";
+  private _getRecentProductsUrl: string = "http://localhost:8080/olx-seller-1/products/recent";
   private _getProductsByCatUrl: string = "http://localhost:8080/olx-seller-1/products/cat";
   private _myProductsUrl: string = "http://localhost:8080/olx-seller-1/user/products";
+  private _getCategoriesUrl:string="http://localhost:8080/olx-seller-1/products/categories";
 
   constructor(private _http: Http) {
   }
@@ -21,6 +26,14 @@ export class ProductService {
     return this._http.get(this._getProductsUrl)
       .map(response => this.products = (response.json()));
 
+  }
+  getRecentProducts(): Observable<Product[]>{
+    return this._http.get(this._getRecentProductsUrl)
+      .map(response => response.json());
+  }
+  getCategories():Observable<Category[]>{
+    return this._http.get(this._getCategoriesUrl)
+      .map(response=>this.categories=(response.json()))
   }
   getProductsByCat(catId): Observable<Product[]> {
     return this._http.get(this._getProductsByCatUrl+'/'+catId)

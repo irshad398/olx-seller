@@ -72,10 +72,9 @@ public class UserResource {
 	@Path("register")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response registerUser(UserRegisterVO userRegisterVO) {
+	public boolean registerUser(UserRegisterVO userRegisterVO) {
 		UserDelegate userDelegate = new UserDelegate();
-		userDelegate.registerUser(userRegisterVO);
-		return Response.status(200).entity(userRegisterVO).build();
+		return userDelegate.registerUser(userRegisterVO);
 	}
 
 	@GET

@@ -1,0 +1,74 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand"  style="color: red;font-family: Ubuntu">Sell<i>it</i>.com</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a>Services</a></li>
+      <li><a>About us</a></li>
+      <li *ngIf="username"><a>Welcome {{username}}</a></li>
+      <li *ngIf="username"><a (click)="logout()">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li><a routerLink="/home/search" routerLinkActive="active" data-toggle="tab">
+      Search Products
+    </a>
+    </li>
+    <li><a routerLink="/home/my-products" routerLinkActive="active" data-toggle="tab">
+      My Products
+    </a>
+  </ul>
+</div>
+
+<div *ngIf="myProduct" class="container-fluid" style="width:50%;margin-top: 30px">
+  <form #myProductForm="ngForm" novalidate>
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input class="form-control" id="title" placeholder="Title" name="title" [(ngModel)]="myProduct.title"
+             minlength="3" maxlength="100" #titleRef="ngModel" required>
+      <div *ngIf="titleRef.invalid && (titleRef.dirty || titleRef.touched)"
+           class="alert alert-danger">
+        <div *ngIf="titleRef.errors.required" style="color: red;">
+          Please title
+        </div>
+        <div *ngIf="titleRef.errors.minlength">
+          Name should be at least of length 3
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input class="form-control" id="price" placeholder="Price" name="price" [(ngModel)]="myProduct.price"
+             ngModel #priceRef="ngModel" pattern="[0-9]*" required="required">
+      <div *ngIf="priceRef.invalid && (priceRef.dirty || priceRef.touched)"
+           class="alert alert-danger">
+        <div *ngIf="priceRef.errors.required" style="color: red;">
+          Please enter price
+        </div>
+        <div *ngIf="priceRef.errors.pattern">
+          Invalid price
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="model">Model:</label>
+      <input class="form-control" id="model" placeholder="Model" name="model" [(ngModel)]="myProduct.model" ngModel>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea class="form-control" id="description" placeholder="Description" name="description"
+                [(ngModel)]="myProduct.description" ngModel></textarea>
+    </div>
+  </form>
+
+  <br/>
+  <button [disabled]="!myProductForm.form.valid" class="btn btn-success" type="submit" (click)="updateProduct(myProduct)">
+    Update
+  </button>
+  <button class="btn pull-right" (click)="goBack()">Go Back</button>
+</div>

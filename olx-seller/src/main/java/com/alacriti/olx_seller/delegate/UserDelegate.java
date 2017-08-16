@@ -26,14 +26,14 @@ public class UserDelegate extends BaseDelegate {
 		}
 		return isValidUser;
 	}
-	public void registerUser(UserRegisterVO userRegisterVO){
+	public boolean registerUser(UserRegisterVO userRegisterVO){
 		boolean rollBack=false;
 		Connection connection = null;
 		try{
 			connection = startDBTransaction();
 			setConnection(connection);
 			UserRoleBO userRoleBO = new UserRoleBO(getConnection());
-			userRoleBO.registerUser(userRegisterVO);
+			return userRoleBO.registerUser(userRegisterVO);
 			
 		} catch (Exception e) {
 			System.out.println("Exception in getMessage " + e.getMessage());
@@ -41,5 +41,6 @@ public class UserDelegate extends BaseDelegate {
 		} finally {
 			endDBTransaction(connection, rollBack);
 		}
+		return false;
 	}
 }

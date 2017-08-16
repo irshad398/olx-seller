@@ -1,9 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {Product} from "./product";
-import {ProductService} from "./product.service";
+import {Product} from "../product";
+import {ProductService} from "../product.service";
 import {Router} from "@angular/router";
 import {Location} from '@angular/common';
-import {LoginService} from "../login/login.service";
+import {LoginService} from "../../login/login.service";
+import {Category} from "../category";
 
 @Component({
   selector: 'my-products',
@@ -12,6 +13,7 @@ import {LoginService} from "../login/login.service";
 })
 export class MyProductsComponent implements OnInit {
   myProducts: Product[];
+  categories:Category[];
   private p: number = 1;
   username: string;
   msg: boolean;
@@ -37,6 +39,11 @@ export class MyProductsComponent implements OnInit {
         console.log(data);
         this.myProducts = data
         this.loginService.username.subscribe(data => this.username = data);
+      });
+    this._productService.getCategories()
+      .subscribe(data=>{
+        console.log(data);
+        this.categories=data;
       });
 
   }
@@ -95,7 +102,8 @@ export class MyProductsComponent implements OnInit {
   logout() {
 
     this.loginService.logout().subscribe(data => {
-      this.msg = data
+      this.msg = data;
+      localStorage.clear();
     }, err => {
       console.log("Error", err)
     });

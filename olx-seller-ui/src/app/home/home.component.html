@@ -13,7 +13,7 @@
   </ul>
 </div>
 <div class="container">
-  <h2>Welcome to olx-seller</h2>
+  <h2 style="font-family: Ubuntu">Welcome to Sellit.com</h2>
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
@@ -25,15 +25,15 @@
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
       <div class="item active">
-        <img src="../../assets/0.jpg" alt="Add 1" style="width:100%;">
+        <img src="../../assets/0.jpg" alt="Add 1" style="width:100%;height:300px;">
       </div>
 
       <div class="item">
-        <img src="../../assets/1.jpg" alt="Add 2 " style="width:100%;">
+        <img src="../../assets/1.jpg" alt="Add 2 " style="width:100%;height:300px;">
       </div>
 
       <div class="item">
-        <img src="../../assets/4.jpg" alt="Add 3" style="width:100%;">
+        <img src="../../assets/4.jpg" alt="Add 3" style="width:100%;height:300px;">
       </div>
     </div>
 
@@ -48,6 +48,27 @@
     </a>
   </div>
 </div>
+
+<div class="container">
+
+  <ul class="list-group" id="products">
+    <h3>Recently added...</h3>
+    <li class="list-group-item" id="recent"
+        *ngFor="let product of recentProducts">
+      <h3>{{product.title}}</h3>
+      <h3>&#8377; {{product.price}}</h3>
+      <h4>Model: {{product.model}}</h4>
+      <h4>Posted on: {{product.postedOn | date:'medium'}}</h4>
+      <button class="btn btn-info pull-right" (click)="gotoDetail(product.product_id)">View Details</button>
+      <br/>
+      <br/>
+      <br/>
+    </li>
+  </ul>
+</div>
+
+
+
 <div class="container" style="padding: 1%">
   <footer class="container-fluid bg-4 text-center">
     <p>&copy; Mahammad Irshad Kutagolla</p>

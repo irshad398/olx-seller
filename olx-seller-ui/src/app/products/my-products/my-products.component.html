@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/home" style="color: red">Olx-Seller</a>
+      <a class="navbar-brand" style="color: red;font-family: Ubuntu">Sell<i>it</i>.com</a>
     </div>
     <ul class="nav navbar-nav">
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
@@ -56,13 +56,13 @@
           </div>
           <div class="form-group">
             <label for="soflow">Category:</label>
-            <select class="input-lg" [ngModel]="newProduct.category_id"
-                    id="soflow" name="category_id" ngModel required #catRef="ngModel">
-              <option value="1">Cars</option>
-              <option value="2">Mobiles</option>
-              <option value="3">Bikes</option>
-              <option value="4">Books</option>
+
+            <select class="input-lg" id="soflow" name="category_id"  [ngModel]="newProduct.category_id"
+                    ngModel #catRef="ngModel" required>
+
+              <option *ngFor="let category of categories" [value]='category.category_id' >{{category.category_name}}</option>
             </select>
+
             <div *ngIf="catRef.invalid && (catRef.dirty || catRef.touched)"
                  class="alert alert-danger">
               <div *ngIf="titleRef.errors.required" style="color: red;">

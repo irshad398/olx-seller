@@ -3,12 +3,13 @@ package com.alacriti.olx_seller.bo.impl;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import com.alacriti.olx_seller.bo.IProductBO;
 import com.alacriti.olx_seller.dao.impl.DAOException;
 import com.alacriti.olx_seller.dao.impl.ProductDAO;
 import com.alacriti.olx_seller.model.vo.ProductVO;
 import com.alacriti.olx_seller.model.vo.SearchProdutVO;
 
-public class ProductBO extends BaseBO {
+public class ProductBO extends BaseBO implements IProductBO{
 
 	public ProductBO(Connection connection) {
 		super(connection);
@@ -118,6 +119,20 @@ public class ProductBO extends BaseBO {
 					+ e.getMessage());
 			throw new BOException();
 		}
+	}
+
+	public ArrayList<ProductVO> getRecentProducts() throws DAOException, BOException{
+		ArrayList<ProductVO> products = null;
+		try {
+			ProductDAO productDAO = new ProductDAO(getConnection());
+			products = productDAO.getRecentProducts();
+
+		} catch (Exception e) {
+			System.out.println("Exception in retrieveRecentProducts "
+					+ e.getMessage());
+			throw new BOException();
+		}
+		return products;
 	}
 
 	

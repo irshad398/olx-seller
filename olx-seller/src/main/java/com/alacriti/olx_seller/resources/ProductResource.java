@@ -13,7 +13,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.alacriti.olx_seller.delegate.CategoryDelegate;
 import com.alacriti.olx_seller.delegate.ProductDelegate;
+import com.alacriti.olx_seller.model.vo.CategoryVO;
 import com.alacriti.olx_seller.model.vo.ProductVO;
 import com.alacriti.olx_seller.model.vo.SearchProdutVO;
 
@@ -22,8 +24,6 @@ import com.alacriti.olx_seller.model.vo.SearchProdutVO;
 public class ProductResource {
 	@GET
 	public Response getProducts(@Context HttpServletRequest request){
-		//AuthenticationUtil auth = new AuthenticationUtil();
-		//if(auth.checkSession(request)){}
 			ArrayList<ProductVO> products;
 			ProductDelegate productDelegate = new ProductDelegate();
 			products=productDelegate.getProducts();
@@ -60,4 +60,22 @@ public class ProductResource {
 		products=productDelegate.getProducts(searchProdutVO);
 		return Response.status(200).entity(products).build();
 	}
+	@GET
+	@Path("/categories")
+	public Response getCategories(){
+		ArrayList<CategoryVO> categories;
+		CategoryDelegate categoryDelegate = new CategoryDelegate();
+		categories=categoryDelegate.getCategories();
+		return Response.status(200).entity(categories).build();
+	}
+	@GET
+	@Path("/recent")
+	public Response getRecentProducts(@Context HttpServletRequest request){
+			ArrayList<ProductVO> products;
+			ProductDelegate productDelegate = new ProductDelegate();
+			products=productDelegate.getRecentProducts();
+			return Response.status(200).entity(products).build();
+		
+	}
+	
 }

@@ -9,6 +9,7 @@ import {RegisterModule} from "./registration/register.module";
 import {HomeModule} from "./home/home.module";
 import {AuthGuard} from "./authguard";
 
+
 @NgModule({
   declarations: [
     AppComponent
