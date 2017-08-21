@@ -16,6 +16,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.olx_seller.delegate.ProductDelegate;
 import com.alacriti.olx_seller.delegate.UserDelegate;
 import com.alacriti.olx_seller.model.vo.ProductVO;
@@ -25,6 +27,7 @@ import com.alacriti.olx_seller.util.AuthenticationUtil;
 
 @Path("/user")
 public class UserResource {
+	private static final Logger log = Logger.getLogger(UserResource.class);
 	boolean isValidUser = false;
 
 	@POST
@@ -32,6 +35,7 @@ public class UserResource {
 	@Produces("application/json")
 	public Response checkUser(UserLoginVO userLoginVo,
 			@Context HttpServletRequest request) {
+		log.debug("userLoginVo.email: "+userLoginVo.getEmail());
 		UserDelegate userDelegate = new UserDelegate();
 		AuthenticationUtil auth = new AuthenticationUtil();
 		isValidUser = userDelegate.checkUserLogin(userLoginVo);
@@ -47,21 +51,27 @@ public class UserResource {
 	@Path("logout")
 	@Produces("application/json")
 	public boolean logOut(@Context HttpServletRequest request) {
+		log.debug("Logging..out  ");
 		AuthenticationUtil auth = new AuthenticationUtil();
 		return auth.destroySession(request);
 
 	}
+
 	@GET
 	@Path("check")
 	@Produces("application/json")
 	public Response checkSession(@Context HttpServletRequest request) {
 		AuthenticationUtil auth = new AuthenticationUtil();
 		HttpSession session = auth.getSession(request);
-		if(session!=null){
+		log.debug("Checking session...");
+		if (session != null) {
 			UserLoginVO userLoginVo = new UserLoginVO();
-			userLoginVo.setEmail((String)session.getAttribute("email"));
-			userLoginVo.setSeller_id((Integer)session.getAttribute("seller_id"));
-			userLoginVo.setSeller_name((String)session.getAttribute("seller_name"));
+			log.info("Session exists...for seller_id: "+session.getAttribute("seller_id"));
+			userLoginVo.setEmail((String) session.getAttribute("email"));
+			userLoginVo.setSeller_id((Integer) session
+					.getAttribute("seller_id"));
+			userLoginVo.setSeller_name((String) session
+					.getAttribute("seller_name"));
 			return Response.status(200).entity(userLoginVo).build();
 		}
 		return Response.status(401).build();
@@ -73,6 +83,7 @@ public class UserResource {
 	@Produces("application/json")
 	@Consumes("application/json")
 	public boolean registerUser(UserRegisterVO userRegisterVO) {
+		log.debug("Registering user..."+userRegisterVO.getEmail());
 		UserDelegate userDelegate = new UserDelegate();
 		return userDelegate.registerUser(userRegisterVO);
 	}
@@ -81,14 +92,14 @@ public class UserResource {
 	@Path("products")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSellerProducts(@Context HttpServletRequest request) {
-		System.out.println("/user/products hitted");
+		log.info("Getting user products..");
 		int seller_id;
 		ProductDelegate productDelegate = new ProductDelegate();
 		ArrayList<ProductVO> products = null;
 		AuthenticationUtil auth = new AuthenticationUtil();
 		HttpSession session = auth.getSession(request);
-		System.out.println(session.getId());
 		if (session != null) {
+			log.debug("Products of seller_id:"+session.getAttribute("seller_id"));
 			seller_id = (Integer) session.getAttribute("seller_id");
 			products = productDelegate.getSellerProducts(seller_id);
 			return Response.status(200).entity(products).build();
@@ -101,6 +112,7 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean addProduct(ProductVO productVO,
 			@Context HttpServletRequest request) {
+		log.debug("***Adding product.. product_title: "+productVO.getTitle());
 		AuthenticationUtil auth = new AuthenticationUtil();
 		ProductDelegate productDelegate = new ProductDelegate();
 		int seller_id;
@@ -119,6 +131,7 @@ public class UserResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public boolean deleteProduct(@PathParam("product_id") int product_id,
 			@Context HttpServletRequest request) {
+		log.debug("***Deleting product..product_id: "+product_id);
 		System.out.println("Delete Product method called with product_id: "
 				+ product_id);
 		AuthenticationUtil auth = new AuthenticationUtil();
@@ -138,6 +151,7 @@ public class UserResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public boolean updateProduct(ProductVO productVO,
 			@Context HttpServletRequest request) {
+		log.debug("***Updating product..product_id: "+productVO.getProduct_id());
 		AuthenticationUtil auth = new AuthenticationUtil();
 		ProductDelegate productDelegate = new ProductDelegate();
 		int seller_id;
@@ -151,7 +165,6 @@ public class UserResource {
 			return productDelegate.updateProduct(productVO, seller_id,
 					product_id);
 		}
-		// return Response.status(200).entity(product_id).build();
 		return false;
 	}
 }

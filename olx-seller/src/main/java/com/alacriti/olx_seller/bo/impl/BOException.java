@@ -1,11 +1,18 @@
 package com.alacriti.olx_seller.bo.impl;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.olx_seller.exception.BaseException;
 
 
 public class BOException extends BaseException {
+	private static final Logger log = Logger.getLogger(BOException.class);
 
 	public BOException() {
+	}
+	public BOException(String msg, Throwable th) {
+
+		log.error(msg+" :"+th);
 	}
 /*
 	public BOException(String msg, Throwable th, String errorCode) {

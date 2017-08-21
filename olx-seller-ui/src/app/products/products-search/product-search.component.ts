@@ -35,7 +35,7 @@ export class ProductSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loginService.username.subscribe(data => this.username = data);
+    this.username=window.localStorage.getItem('user');
     this._productService.getProducts()
       .subscribe(data=>{
         // console.log(data);
@@ -92,7 +92,8 @@ export class ProductSearchComponent implements OnInit {
       console.log("Error", err)
     });
     if (this.msg == true) {
-      console.log("Logged out!")
+      console.log("Logged out!");
+      window.localStorage.clear();
     }
     this.router.navigate(['/login'])
   }

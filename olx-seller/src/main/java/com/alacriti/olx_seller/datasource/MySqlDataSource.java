@@ -12,11 +12,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.olx_seller.util.ExceptionUtil;
 
 
 public final class MySqlDataSource {
-
+	private static final Logger log = Logger.getLogger(MySqlDataSource.class);
 	private static MySqlDataSource ms_this = null;
 	private static DataSource dbSource = null;
 
@@ -41,24 +43,26 @@ public final class MySqlDataSource {
 	}
 
 	protected void initialize() {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		
 		try {
 			if (dbSource == null) {
-				System.out.println("DataSource  looking up URL " + "java:jboss/datasources/TRAINEEE");
+				log.info("DataSource  looking up URL " + "java:jboss/datasources/TRAINEEE");
 				InitialContext aInitialContext = new InitialContext();
 				dbSource = (DataSource) aInitialContext.lookup("java:jboss/datasources/TRAINEEE");
 
-System.out.println("DataSource dbSource was null and was successfully setup by looking up URL "
+				log.debug("DataSource dbSource was null and was successfully setup by looking up URL "
 						+ "java:jboss/datasources/TRAINEEE");
 			}
 		} catch (NamingException e) {
-			System.out.println("NamingException in initialize " + e.getMessage());
+			log.error("NamingException in initialize " + e.getMessage());
 		} catch (Exception e) {
-			System.out.println("Exception in initialize " + e.getMessage());
+			log.error("Exception in initialize " + e.getMessage());
 		}
 	}
 
 	public Connection getConnection() {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		try {
 			Connection dbCon = dbSource.getConnection();
 			dbCon.setAutoCommit(false);
@@ -83,11 +87,11 @@ System.out.println("DataSource dbSource was null and was successfully setup by l
 			 */
 			return dbCon;
 		} catch (Exception e) {
-			System.out.println("Exception in getConnection " + e.getMessage());
+			log.error("Exception in getConnection " + e.getMessage());
 		}
 		return null;
 	}
-
+	private static final Logger connLog = Logger.getLogger("CONNECTION_LEAK");
 	private static final Map<String, String> openConnIdMap = new HashMap<String, String>();
 	private static final boolean isConneLeakChkEnabled = true;// connLog.isInfoEnabled();
 	private static final Object connLeakVarlock = new Object();
@@ -121,7 +125,7 @@ System.out.println("DataSource dbSource was null and was successfully setup by l
 						if (localStackTrace.length() > 500) {
 							localStackTrace = localStackTrace.substring(0, 499);
 						}
-						System.out.println("::Connection returned:" + totalOpenConnCnt + "::" + (-totalClosedConnCnt) + ">"
+						connLog.info("::Connection returned:" + totalOpenConnCnt + "::" + (-totalClosedConnCnt) + ">"
 								+ connOpenedNow + ":\n" + localStackTrace);
 
 					}
@@ -129,7 +133,7 @@ System.out.println("DataSource dbSource was null and was successfully setup by l
 				return method.invoke(conn, args);
 			} catch (InvocationTargetException e) {
 
-				System.out.println("InvocationTargetException in invoke " + e.getMessage());
+				log.error("InvocationTargetException in invoke " + e.getMessage());
 				throw e.getTargetException();
 			}
 		}
@@ -140,15 +144,15 @@ System.out.println("DataSource dbSource was null and was successfully setup by l
 	private static int connOpenedNow = 0;
 
 	public static void printConnectionLeakTrace() {
-		System.out.println("printConnectionLeakTrace(): Start");
+		log.error("printConnectionLeakTrace(): Start");
 
 		if (openConnIdMap.size() > 0) {
-			System.out.println("No Problem in this exception. There are some open connection exist now : ");
+			log.error("No Problem in this exception. There are some open connection exist now : ");
 			for (Map.Entry<String, String> entry : openConnIdMap.entrySet()) {
-				System.out.println("No Problem in this exception. ConnId:" + entry.getKey() + " :: Trace :" + entry.getValue());
+				log.error("No Problem in this exception. ConnId:" + entry.getKey() + " :: Trace :" + entry.getValue());
 			}
 		}
-		System.out.println("printConnectionLeakTrace(): End");
+		log.debug("printConnectionLeakTrace(): End");
 	}
 }
 

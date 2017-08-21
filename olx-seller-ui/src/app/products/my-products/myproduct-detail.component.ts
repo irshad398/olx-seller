@@ -26,7 +26,7 @@ export class MyProductDetailComponent {
   ngOnInit(): void {
     this.route.params.subscribe((params: ParamMap) => {
       this.myProduct_id = params['id']
-      this.loginService.username.subscribe(data=>this.username=data);
+      this.username=window.localStorage.getItem('user');
 
     });
 
@@ -56,7 +56,8 @@ export class MyProductDetailComponent {
       console.log("Error", err)
     });
     if (this.msg == true) {
-      console.log("Logged out!")
+      console.log("Logged out!");
+      window.localStorage.clear();
     }
     this.router.navigate(['/login'])
   }

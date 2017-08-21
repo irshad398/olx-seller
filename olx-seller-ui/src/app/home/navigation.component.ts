@@ -24,7 +24,8 @@ export class NavigationComponent implements OnInit {
     }).catch((error) => {
       console.log("Error");
     });
-    this.loginService.username.subscribe(data=>this.username=data);
+    // this.loginService.username.subscribe(data=>this.username=data);
+    this.username=window.localStorage.getItem('user');
   }
 
   logout() {
@@ -35,7 +36,8 @@ export class NavigationComponent implements OnInit {
       console.log("Error", err)
     });
     if (this.msg == true) {
-      console.log("Logged out!")
+      console.log("Logged out!");
+      window.localStorage.clear();
     }
     this.router.navigate(['/login'])
   }

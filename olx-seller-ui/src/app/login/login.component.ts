@@ -22,7 +22,7 @@ export class LoginComponent {
         this._loginService.isLoggedIn.next(true);
         this._loginService.username.next(data.seller_name);
           alert("Login Successfull!'");
-          localStorage.setItem("user",data.seller_name);
+          window.localStorage.setItem("user",data.seller_name);
           //console.log(this._loginService.getUserDetails())
           this.router.navigate(['/home']);
         },

@@ -4,14 +4,15 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.apache.log4j.Logger;
+
 
 
 public class BaseException extends Exception {
-	/*private static final AppLogger log = LogUtil.getLogger(BaseException.class);
+	private static final Logger log = Logger.getLogger(BaseException.class);
 	protected Throwable m_innerException;
-	protected String m_message = Constants.EMPTY_STRING;
-	protected String m_errorCode = ErrorConstants.ERR_GENERIC;
-*/
+//	protected String m_message = Constants.EMPTY_STRING;
+//	protected String m_errorCode = ErrorConstants.ERR_GENERIC;
 	// TODO: USAGE: To Override in the child exceptions
 
 	protected BaseException() {
@@ -19,7 +20,7 @@ public class BaseException extends Exception {
 	public BaseException(String msg, Throwable th) {
 //		super(StringUtil.noNullTrim(msg), th);
 //		setErrorCode(errorCode);
-		System.out.println("msg: "+th);
+		log.error("msg: "+th,th);
 	}
 
 	

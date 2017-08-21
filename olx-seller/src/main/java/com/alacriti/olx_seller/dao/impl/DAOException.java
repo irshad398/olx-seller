@@ -16,7 +16,7 @@ public class DAOException extends BaseException {
 	public DAOException(Throwable th, String errorCode) {
 		this(null, th, errorCode);
 	}
-
+/*
 	public DAOException(String msg, Throwable th) {
 		
 		this(msg, th);

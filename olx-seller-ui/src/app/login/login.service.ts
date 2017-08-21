@@ -21,6 +21,7 @@ export class LoginService {
 
   private _loginUrl: string = "http://localhost:8080/olx-seller-1/user/login";
   private _logoutUrl: string = "http://localhost:8080/olx-seller-1/user/logout";
+  private _checkSession: string = "http://localhost:8080/olx-seller-1/user/check";
   msg: any;
 
   constructor(private _http: Http) {
@@ -62,5 +63,16 @@ export class LoginService {
       headers: headers,
       withCredentials: true
     }).map((res: Response) => res.json());
+  }
+
+  checkSession() {
+
+    const headers = new Headers();
+    headers.append('Content-Type',
+      'application/json');
+    return this._http.get(this._checkSession, {headers: headers, withCredentials: true})
+      .map((res: Response) =>res.json());
+
+
   }
 }

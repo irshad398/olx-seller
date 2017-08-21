@@ -6,11 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.olx_seller.dao.IProductDAO;
 import com.alacriti.olx_seller.model.vo.ProductVO;
 import com.alacriti.olx_seller.model.vo.SearchProdutVO;
 
 public class ProductDAO extends BaseDAO implements IProductDAO {
+	private static final Logger log = Logger.getLogger(ProductDAO.class);
 
 	public ProductDAO(Connection connection) {
 		super(connection);
@@ -21,13 +24,15 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 	}
 
 	public ArrayList<ProductVO> getProducts() throws DAOException {
+		log.debug("In "
+				+ Thread.currentThread().getStackTrace()[2].getMethodName());
 		ArrayList<ProductVO> products = new ArrayList<ProductVO>();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCmd = "sql cmd";
 		try {
 			stmt = getPreparedStatementGetProducts(getConnection(), sqlCmd);
-			System.out.println("reached here********");
+			log.debug("reached here********");
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				products.add(new ProductVO(rs.getInt(1), rs.getString(2), rs
@@ -38,6 +43,7 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 			}
 
 		} catch (SQLException e) {
+			log.error("SQLException in getProducts(): " + e.getMessage(), e);
 			throw new DAOException("SQLException in getProducts():", e);
 		} finally {
 			close(stmt, rs);
@@ -47,9 +53,9 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	public PreparedStatement getPreparedStatementGetProducts(
 			Connection connection, String sqlCmd) throws SQLException {
-		// log.debugPrintCurrentMethodName();
-
-		System.out.println("getPreparedStatementGetProducts: " + sqlCmd);
+		log.debug("In "
+				+ Thread.currentThread().getStackTrace()[2].getMethodName());
+		log.info("getPreparedStatementGetProducts: " + sqlCmd);
 		try {
 
 			return connection
@@ -62,19 +68,21 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 							+ " INNER JOIN irshadk_olx_product_categories as ct"
 							+ " ON pt.category_id = ct.category_id ORDER BY pt.posted_on DESC");
 		} catch (SQLException e) {
-			System.out.println("Exception in getPreparedStatementGetProducts "
-					+ e.getMessage());
+			log.error("Exception in getPreparedStatementGetProducts "
+					+ e.getMessage(),e);
 			throw e;
 		}
 	}
 
 	public void getProductById(ProductVO productVO) throws DAOException {
+		log.debug("In "
+				+ Thread.currentThread().getStackTrace()[2].getMethodName());
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCmd = "sql cmd";
 		try {
 			stmt = getPreparedStatementGetProductById(getConnection(), sqlCmd);
-			System.out.println("reached here********");
+			log.debug("reached here********");
 			stmt.setInt(1, productVO.getProduct_id());
 			rs = stmt.executeQuery();
 
@@ -92,6 +100,7 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 			}
 
 		} catch (SQLException e) {
+			log.error("SQLException in getProductById(): "+e.getMessage(), e);
 			throw new DAOException("SQLException in getProductById(): ", e);
 		} finally {
 			close(stmt, rs);
@@ -101,7 +110,8 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	private PreparedStatement getPreparedStatementGetProductById(
 			Connection connection, String sqlCmd) throws SQLException {
-		System.out.println("getPreparedStatementGetProductById: " + sqlCmd);
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
+		log.info("getPreparedStatementGetProductById: " + sqlCmd);
 		try {
 
 			return connection
@@ -114,15 +124,15 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 							+ "WHERE pt.product_id = ? and pt.category_id = ct.category_id "
 							+ "AND pt.seller_id = st.seller_id");
 		} catch (SQLException e) {
-			System.out
-					.println("Exception in getPreparedStatementGetProductById "
-							+ e.getMessage());
+			log.error("Exception in getPreparedStatementGetProductById "
+							+ e.getMessage(),e);
 			throw e;
 		}
 	}
 
 	public ArrayList<ProductVO> getProductByCategory(int category_id)
 			throws DAOException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		ArrayList<ProductVO> products = new ArrayList<ProductVO>();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -130,7 +140,7 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 		try {
 			stmt = getPreparedStatementGetProductByCategory(getConnection(),
 					sqlCmd);
-			System.out.println("reached here********");
+			log.debug("reached here********");
 			stmt.setInt(1, category_id);
 			rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -142,6 +152,7 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 			}
 
 		} catch (SQLException e) {
+			log.error("SQLException in getProducts():"+e.getMessage(), e);
 			throw new DAOException("SQLException in getProducts():", e);
 		} finally {
 			close(stmt, rs);
@@ -151,9 +162,9 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	private PreparedStatement getPreparedStatementGetProductByCategory(
 			Connection connection, String sqlCmd) throws SQLException {
-		// log.debugPrintCurrentMethodName();
-
-		System.out.println("getPreparedStatementGetProducts: " + sqlCmd);
+		
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
+		log.info("getPreparedStatementGetProducts: " + sqlCmd);
 		try {
 
 			return connection
@@ -166,16 +177,15 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 							+ " INNER JOIN irshadk_olx_product_categories as ct"
 							+ " ON pt.category_id = ct.category_id AND pt.category_id = ? ORDER BY pt.posted_on DESC");
 		} catch (SQLException e) {
-			System.out
-					.println("Exception in getPreparedStatementGetProductByCategory "
-							+ e.getMessage());
+			log.error("Exception in getPreparedStatementGetProductByCategory "
+							+ e.getMessage(),e);
 			throw e;
 		}
 	}
 
 	public ArrayList<ProductVO> getProducts(SearchProdutVO searchProdutVO)
 			throws DAOException {
-
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		ArrayList<ProductVO> products = new ArrayList<ProductVO>();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -202,10 +212,10 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 				stmt.setString(2, "%" + searchProdutVO.getTitle() + "%");
 				stmt.setString(3, "%" + searchProdutVO.getTitle() + "%");
 			}
-			System.out.println("reached here********");
-			System.out.println(searchProdutVO.getTitle() + ":I am here");
+			log.debug("reached here********");
+			log.info("searchProdutVO.getTitle(): "+searchProdutVO.getTitle());
 			rs = stmt.executeQuery();
-			System.out.println(searchProdutVO.getCatId() + ":Hey...I am here");
+			log.info("searchProdutVO.getCatId(): "+searchProdutVO.getCatId());
 			while (rs.next()) {
 				products.add(new ProductVO(rs.getInt(1), rs.getString(2), rs
 						.getString(3), rs.getFloat(4), rs.getString(5), rs
@@ -215,6 +225,7 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 			}
 
 		} catch (SQLException e) {
+			log.error("SQLException in getProducts():"+e.getMessage(), e);
 			throw new DAOException("SQLException in getProducts():", e);
 		} finally {
 			close(stmt, rs);
@@ -224,36 +235,20 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	public PreparedStatement getPreparedStatementGetProductsBySearch(
 			Connection connection, String sqlCmd) throws SQLException {
-		// log.debugPrintCurrentMethodName();
-
-		System.out
-				.println("getPreparedStatementGetProductsBySearch: " + sqlCmd);
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
+		log.info("getPreparedStatementGetProductsBySearch: " + sqlCmd);
 		try {
-
-			/*
-			 * return connection .prepareStatement(
-			 * "SELECT pt.product_id,pt.title,ct.category_name,pt.price," +
-			 * "pt.model,pt.old_or_new,pt.description," +
-			 * "pt.posted_on,st.seller_name,st.phone_no,st.email" +
-			 * " FROM irshadk_olx_seller_details as st " +
-			 * " INNER JOIN  irshadk_olx_product_details as pt" +
-			 * " ON pt.seller_id = st.seller_id" +
-			 * " INNER JOIN irshadk_olx_product_categories as ct" +
-			 * " ON pt.category_id = ct.category_id" +
-			 * " WHERE ct.category_id = ? AND pt.title LIKE ? ORDER BY pt.posted_on DESC"
-			 * );
-			 */
 			return connection.prepareStatement(sqlCmd);
 		} catch (SQLException e) {
-			System.out
-					.println("Exception in getPreparedStatementGetProductsBySearch "
-							+ e.getMessage());
+			log.error("Exception in getPreparedStatementGetProductsBySearch "
+							+ e.getMessage(),e);
 			throw e;
 		}
 	}
 
 	public ArrayList<ProductVO> getSellerProducts(int seller_id)
 			throws DAOException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		ArrayList<ProductVO> products = new ArrayList<ProductVO>();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -261,7 +256,7 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 		try {
 			stmt = getPreparedStatementGetSellerProducts(getConnection(),
 					sqlCmd);
-			System.out.println("reached here********");
+			log.debug("reached here********");
 			stmt.setInt(1, seller_id);
 			rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -271,9 +266,9 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 						.getString(9), rs.getLong(10), rs.getString(11)));
 
 			}
-			// System.out.println(products.iterator().next().getTitle());
 
 		} catch (SQLException e) {
+			log.error("SQLException in getProducts():"+e.getMessage(), e);
 			throw new DAOException("SQLException in getProducts():", e);
 		} finally {
 			close(stmt, rs);
@@ -283,9 +278,8 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	private PreparedStatement getPreparedStatementGetSellerProducts(
 			Connection connection, String sqlCmd) throws SQLException {
-		// log.debugPrintCurrentMethodName();
-
-		System.out.println("getPreparedStatementGetSellerProducts: " + sqlCmd);
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
+		log.info("getPreparedStatementGetSellerProducts: " + sqlCmd);
 		try {
 
 			return connection
@@ -300,6 +294,8 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 							+ " WHERE st.seller_id = ? ORDER BY pt.posted_on DESC");
 
 		} catch (SQLException e) {
+			log.error("Exception in getPreparedStatementGetProductsBySearch "
+					+ e.getMessage(),e);
 			System.out
 					.println("Exception in getPreparedStatementGetProductsBySearch "
 							+ e.getMessage());
@@ -308,13 +304,14 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 	}
 
 	public boolean addProduct(ProductVO productVO) throws DAOException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		PreparedStatement stmt = null;
 		String sqlCmd = "sql cmd";
 		int count;
 		try {
 			stmt = getPreparedStatementAddProduct(getConnection(), sqlCmd);
-			System.out.println("reached here********");
-			System.out.println(productVO.getTitle());
+			log.debug("reached here********");
+			log.debug("***productVO.getTitle(): "+productVO.getTitle());
 			stmt.setString(1, productVO.getTitle());
 			stmt.setInt(2, productVO.getCategory_id());
 			stmt.setString(3, productVO.getDescription());
@@ -324,13 +321,15 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 			stmt.setInt(7, productVO.getSeller_id());
 			count = stmt.executeUpdate();
 			if (count > 0) {
-				System.out.println("Product Added successfully");
+				log.info("Product Added successfully");
 				return true;
 			} else {
+				log.info("Unable to add product");
 				return false;
 			}
 
 		} catch (SQLException e) {
+			log.error("SQLException in getProducts():"+e.getMessage(), e);
 			throw new DAOException("SQLException in getProducts():", e);
 		} finally {
 			close(stmt);
@@ -340,8 +339,9 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	private PreparedStatement getPreparedStatementAddProduct(
 			Connection connection, String sqlCmd) throws SQLException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 
-		System.out.println("getPreparedStatementAddProduct: " + sqlCmd);
+		log.info("getPreparedStatementAddProduct: " + sqlCmd);
 		try {
 
 			return connection
@@ -350,8 +350,8 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 							+ " VALUES(?,?,?,?,?,?,?)");
 
 		} catch (SQLException e) {
-			System.out.println("Exception in getPreparedStatementAddProduct "
-					+ e.getMessage());
+			log.error("Exception in getPreparedStatementAddProduct "
+					+ e.getMessage(),e);
 			throw e;
 		}
 
@@ -359,24 +359,26 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	public boolean deleteProduct(int seller_id, int product_id)
 			throws DAOException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		PreparedStatement stmt = null;
 		String sqlCmd = "sql cmd";
 		int count;
 		try {
 			stmt = getPreparedStatementDeleteProduct(getConnection(), sqlCmd);
-			System.out.println("reached here********");
+			log.debug("reached here********");
 			stmt.setInt(1, product_id);
 			stmt.setInt(2, seller_id);
 			count = stmt.executeUpdate();
 			if (count > 0) {
-				System.out.println("Product Deleted successfully");
+				log.info("Product Deleted successfully");
 				return true;
 			} else {
-				System.out.println("Unable to delete the product");
+				log.info("Unable to delete the product");
 				return false;
 			}
 
 		} catch (SQLException e) {
+			log.error("SQLException in deleteProduct():"+e.getMessage(), e);
 			throw new DAOException("SQLException in deleteProduct():", e);
 		} finally {
 			close(stmt);
@@ -385,8 +387,9 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	private PreparedStatement getPreparedStatementDeleteProduct(
 			Connection connection, String sqlCmd) throws SQLException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 
-		System.out.println("getPreparedStatementDeleteProduct: " + sqlCmd);
+		log.info("getPreparedStatementDeleteProduct: " + sqlCmd);
 		try {
 
 			return connection
@@ -394,9 +397,8 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 							+ " WHERE product_id = ? AND seller_id = ?");
 
 		} catch (SQLException e) {
-			System.out
-					.println("Exception in getPreparedStatementDeleteProduct "
-							+ e.getMessage());
+			log.error("Exception in getPreparedStatementDeleteProduct "
+							+ e.getMessage(),e);
 			throw e;
 		}
 
@@ -404,16 +406,14 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	public boolean updateProduct(ProductVO productVO, int seller_id,
 			int product_id) throws DAOException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		PreparedStatement stmt = null;
 		String sqlCmd = "sql cmd";
 		int count;
 		try {
 			stmt = getPreparedStatementUpdateProduct(getConnection(), sqlCmd);
-			System.out.println("reached here********");
+			log.debug("reached here********");
 			stmt.setString(1, productVO.getTitle());
-			// stmt.setInt(2,seller_id); SET title = ?,category_id = ?,
-			// description = ? , model = ?, price = ?"
-			// + " where product_id = ? AND seller_id = ?");
 			stmt.setString(2, productVO.getDescription());
 			stmt.setString(3, productVO.getModel());
 			stmt.setFloat(4, productVO.getPrice());
@@ -422,10 +422,10 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 			stmt.setInt(7, seller_id);
 			count = stmt.executeUpdate();
 			if (count > 0) {
-				System.out.println("Product updated successfully");
+				log.info("Product updated successfully");
 				return true;
 			} else {
-				System.out.println("Unable to update the product");
+				log.info("Unable to update the product");
 				return false;
 			}
 
@@ -438,8 +438,9 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 
 	private PreparedStatement getPreparedStatementUpdateProduct(
 			Connection connection, String sqlCmd) throws SQLException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 
-		System.out.println("getPreparedStatementUpdateProduct: " + sqlCmd);
+		log.info("getPreparedStatementUpdateProduct: " + sqlCmd);
 		try {
 
 			return connection
@@ -448,22 +449,23 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 							+ " where product_id = ? AND seller_id = ?");
 
 		} catch (SQLException e) {
-			System.out
-					.println("Exception in getPreparedStatementDeleteProduct "
-							+ e.getMessage());
+			log.error("Exception in getPreparedStatementDeleteProduct "
+							+ e.getMessage(),e);
 			throw e;
 		}
 
 	}
 
 	public ArrayList<ProductVO> getRecentProducts() throws DAOException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		ArrayList<ProductVO> products = new ArrayList<ProductVO>();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCmd = "sql cmd";
 		try {
-			stmt = getPreparedStatementGetRecentProducts(getConnection(), sqlCmd);
-			System.out.println("reached here********");
+			stmt = getPreparedStatementGetRecentProducts(getConnection(),
+					sqlCmd);
+			log.debug("reached here********");
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				products.add(new ProductVO(rs.getInt(1), rs.getString(2), rs
@@ -474,6 +476,7 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 			}
 
 		} catch (SQLException e) {
+			log.error("SQLException in getRecentProducts():"+e.getMessage(),e);
 			throw new DAOException("SQLException in getRecentProducts():", e);
 		} finally {
 			close(stmt, rs);
@@ -482,10 +485,10 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 	}
 
 	private PreparedStatement getPreparedStatementGetRecentProducts(
-			Connection connection, String sqlCmd) throws SQLException{
-		// log.debugPrintCurrentMethodName();
+			Connection connection, String sqlCmd) throws SQLException {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 
-		System.out.println("getPreparedStatementRecentGetProducts: " + sqlCmd);
+		log.info("getPreparedStatementRecentGetProducts: " + sqlCmd);
 		try {
 
 			return connection
@@ -498,8 +501,8 @@ public class ProductDAO extends BaseDAO implements IProductDAO {
 							+ " INNER JOIN irshadk_olx_product_categories as ct"
 							+ " ON pt.category_id = ct.category_id ORDER BY pt.posted_on DESC LIMIT 4");
 		} catch (SQLException e) {
-			System.out.println("Exception in getPreparedStatementGetProducts "
-					+ e.getMessage());
+			log.error("Exception in getPreparedStatementGetProducts "
+					+ e.getMessage(),e);
 			throw e;
 		}
 	}

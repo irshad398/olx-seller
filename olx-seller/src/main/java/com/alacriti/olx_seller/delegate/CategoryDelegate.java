@@ -3,15 +3,16 @@ package com.alacriti.olx_seller.delegate;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.olx_seller.bo.impl.CategoryBO;
 import com.alacriti.olx_seller.model.vo.CategoryVO;
 
 public class CategoryDelegate extends BaseDelegate {
-	public CategoryDelegate() {
-
-	}
+	private static final Logger log = Logger.getLogger(CategoryDelegate.class);
 
 	public ArrayList<CategoryVO> getCategories() {
+		log.info("In Category Delegate****getCategories");
 		boolean rollBack = false;
 		Connection connection = null;
 		ArrayList<CategoryVO> categories = null;
@@ -21,7 +22,7 @@ public class CategoryDelegate extends BaseDelegate {
 			CategoryBO categoryBO = new CategoryBO(getConnection());
 			categories = categoryBO.getCategories();
 		} catch (Exception e) {
-			System.out.println("Exception in getCategories " + e.getMessage());
+			log.error("Exception in getCategories " + e.getMessage(),e);
 			rollBack = true;
 		} finally {
 			endDBTransaction(connection, rollBack);
@@ -29,5 +30,4 @@ public class CategoryDelegate extends BaseDelegate {
 		return categories;
 
 	}
-
 }

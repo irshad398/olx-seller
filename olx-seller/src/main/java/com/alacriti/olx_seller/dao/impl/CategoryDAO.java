@@ -6,10 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.olx_seller.dao.ICategoryDAO;
 import com.alacriti.olx_seller.model.vo.CategoryVO;
 
-public class CategoryDAO extends BaseDAO implements ICategoryDAO{
+public class CategoryDAO extends BaseDAO implements ICategoryDAO {
+	private static final Logger log = Logger.getLogger(CategoryDAO.class);
 
 	public CategoryDAO(Connection connection) {
 		super(connection);
@@ -26,13 +29,14 @@ public class CategoryDAO extends BaseDAO implements ICategoryDAO{
 		String sqlCmd = "sql cmd";
 		try {
 			stmt = getPreparedStatementGetCategories(getConnection(), sqlCmd);
-			System.out.println("reached here********");
+			log.debug("reached here********");
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				categories.add(new CategoryVO(rs.getInt(1), rs.getString(2)));
 			}
 		} catch (SQLException e) {
-			throw new DAOException("SQLException in getProducts():", e);
+			log.error("SQLException in getCategories(): " + e.getMessage(), e);
+			throw new DAOException("SQLException in getCategories():", e);
 		} finally {
 			close(stmt, rs);
 		}
@@ -41,16 +45,17 @@ public class CategoryDAO extends BaseDAO implements ICategoryDAO{
 
 	private PreparedStatement getPreparedStatementGetCategories(
 			Connection connection, String sqlCmd) throws SQLException {
-		// log.debugPrintCurrentMethodName();
+		log.debug("In "
+				+ Thread.currentThread().getStackTrace()[2].getMethodName());
 
-		System.out.println("getPreparedStatementGetCategories: " + sqlCmd);
+		log.info("getPreparedStatementGetCategories: " + sqlCmd);
 		try {
 
 			return connection
 					.prepareStatement("SELECT category_id,category_name from irshadk_olx_product_categories ");
 		} catch (SQLException e) {
-			System.out.println("Exception in getPreparedStatementGetProducts "
-					+ e.getMessage());
+			log.error("Exception in getPreparedStatementGetProducts "
+					+ e.getMessage(),e);
 			throw e;
 		}
 	}

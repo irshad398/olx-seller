@@ -14,11 +14,11 @@ public class ProductVO {
 	private String seller_name;
 	private long phone_no;
 	private String email;
-	
+
 	public ProductVO() {
 		super();
 	}
-	
+
 	public ProductVO(int product_id, String title, String category_name,
 			float price, String model, String old_or_new, String description,
 			String postedOn, String seller_name, long phone_no, String email) {
@@ -140,9 +140,4 @@ public class ProductVO {
 		this.email = email;
 	}
 
-	
-
-
-
-	
 }

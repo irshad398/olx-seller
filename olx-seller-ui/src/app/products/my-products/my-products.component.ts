@@ -38,7 +38,7 @@ export class MyProductsComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         this.myProducts = data
-        this.loginService.username.subscribe(data => this.username = data);
+        this.username=window.localStorage.getItem('user');
       });
     this._productService.getCategories()
       .subscribe(data=>{
@@ -108,7 +108,8 @@ export class MyProductsComponent implements OnInit {
       console.log("Error", err)
     });
     if (this.msg == true) {
-      console.log("Logged out!")
+      console.log("Logged out!");
+      window.localStorage.clear();
     }
     this.router.navigate(['/login'])
   }

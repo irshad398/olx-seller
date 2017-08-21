@@ -3,53 +3,59 @@ package com.alacriti.olx_seller.delegate;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.olx_seller.datasource.MySqlDataSource;
 
 public class BaseDelegate {
-
+	private static final Logger log = Logger.getLogger(BaseDelegate.class);
 	private Connection connection;
 
 	public void setConnection(Connection _connection) {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		this.connection = _connection;
 	}
 
 	public Connection getConnection() {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		return connection;
 	}
 
 	protected void endDBTransaction(Connection connection) {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		
 		try {
 			connection.commit();
 
 		} catch (SQLException e) {
-			System.out.println("SQLException in endDBTransaction " + e.getMessage());
+			log.error("SQLException in endDBTransaction " + e.getMessage());
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				System.out.println("SQLException in endDBTransaction" + e1.getMessage());
+				log.error("SQLException in endDBTransaction" + e1.getMessage());
 			}
 		} catch (Exception e) {
-			System.out.println("Exception in endDBTransaction" + e.getMessage());
+			log.error("Exception in endDBTransaction" + e.getMessage());
 		} finally {
 			try {
 				if (connection != null)
 					connection.close();
 			} catch (SQLException e) {
-				System.out.println("SQLException in endDBTransaction" + e.getMessage());
+				log.error("SQLException in endDBTransaction" + e.getMessage());
 			}
 		}
 
 	}
 
 	protected void endDBTransaction(Connection connection, boolean isRollback) {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		
 		if (isRollback) {
 			try {
 				connection.rollback();
-				System.out.println("Rolled Back on some exception....!!!");
+				log.info("Rolled Back on some exception....!!!");
 			} catch (SQLException e) {
-				System.out.println("SQLException in endDBTransaction " + e.getMessage());
+				log.error("SQLException in endDBTransaction " + e.getMessage());
 			}
 
 			finally {
@@ -57,7 +63,7 @@ public class BaseDelegate {
 					if (connection != null)
 						connection.close();
 				} catch (SQLException e) {
-					System.out.println("SQLException in endDBTransaction " + e.getMessage());
+					log.error("SQLException in endDBTransaction " + e.getMessage());
 				}
 			}
 		} else {
@@ -67,6 +73,7 @@ public class BaseDelegate {
 	}
 
 	protected Connection startDBTransaction() {
+		log.debug("In " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		Connection conn = null;
 		try {
 			if (conn == null || conn.isClosed())
@@ -74,7 +81,7 @@ public class BaseDelegate {
 
 			conn.setAutoCommit(false);
 		} catch (SQLException e) {
-			System.out.println("SQLException in startDBTransaction " + e.getMessage());
+			log.error("SQLException in startDBTransaction " + e.getMessage());
 		}
 		return conn;
 

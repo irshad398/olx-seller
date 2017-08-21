@@ -2,14 +2,19 @@ package com.alacriti.olx_seller.delegate;
 
 import java.sql.Connection;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.olx_seller.bo.impl.UserRoleBO;
 import com.alacriti.olx_seller.delegate.BaseDelegate;
 import com.alacriti.olx_seller.model.vo.UserLoginVO;
 import com.alacriti.olx_seller.model.vo.UserRegisterVO;
 
 public class UserDelegate extends BaseDelegate {
+	private static final Logger log = Logger.getLogger(UserDelegate.class);
 
 	public boolean checkUserLogin(UserLoginVO userLoginVO) {
+		log.info("In User delegate*******checkUserLogin");
+		log.info("In User delegate***userLoginVO.getEmail()****"+userLoginVO.getEmail());
 		boolean isValidUser = false;
 		boolean rollBack = false;
 		Connection connection = null;
@@ -19,7 +24,7 @@ public class UserDelegate extends BaseDelegate {
 			UserRoleBO userRoleBO = new UserRoleBO(getConnection());
 			isValidUser = userRoleBO.checkUserLogin(userLoginVO);
 		} catch (Exception e) {
-			System.out.println("Exception in getMessage " + e.getMessage());
+			log.error("Exception in checkUserLogin " + e.getMessage(),e);
 			rollBack = true;
 		} finally {
 			endDBTransaction(connection, rollBack);
@@ -27,6 +32,7 @@ public class UserDelegate extends BaseDelegate {
 		return isValidUser;
 	}
 	public boolean registerUser(UserRegisterVO userRegisterVO){
+		log.info("In User delegate*********registerUser");
 		boolean rollBack=false;
 		Connection connection = null;
 		try{
@@ -36,7 +42,7 @@ public class UserDelegate extends BaseDelegate {
 			return userRoleBO.registerUser(userRegisterVO);
 			
 		} catch (Exception e) {
-			System.out.println("Exception in getMessage " + e.getMessage());
+			log.error("Exception in registerUser " + e.getMessage(),e);
 			rollBack = true;
 		} finally {
 			endDBTransaction(connection, rollBack);
